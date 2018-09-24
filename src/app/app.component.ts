@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this._router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(() => {
             this.isAuthenticated = false;
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));        
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));        
         if (currentUser ) {
             this.isAuthenticated = true;
         }

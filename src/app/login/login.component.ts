@@ -60,13 +60,13 @@ export class LoginComponent implements OnInit {
                     //this.messageAlertHandleService.handleError(error);
                     // rfv
                     var user = new User();
-                    user.id = 1;
+                    user.id = 2;
                     user.username = 'rernandezv';
                     user.password = 'rernandezv';
                     user.firstName = 'Richar';
-                    user.lastName = 'Fernandez';
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    localStorage.setItem("token", 'rfv123@#$%&');
+                    user.lastName = 'Fernandez Vilchez';
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    sessionStorage.setItem("token", 'rfv123@#$%&');
 
                     console.log(error);
                     this.router.navigate([this.returnUrl]);

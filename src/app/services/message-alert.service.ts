@@ -44,7 +44,12 @@ export class MessageAlertHandleService {
             if(res.status == HttpStatus.INTERNAL_SERVER_ERROR){
                 this.toastr.error(err.statusText);
                 return;
-            }            
+            }
+            
+            if(res.status == 0){
+                this.toastr.error(err.statusText + ' processing');
+                return;
+            }  
         }
         if(err instanceof ResponseApi){
             const res: ResponseApi = err;

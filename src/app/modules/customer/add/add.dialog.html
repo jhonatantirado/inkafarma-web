@@ -1,0 +1,61 @@
+<div class="container">
+  <h3 mat-dialog-title>Add new Customer</h3>
+
+  <form class="mat-dialog-content" (ngSubmit)="onSubmit()" [formGroup]="createForm" >
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="First Name" [(ngModel)]="data.firstName" formControlName="firstName" name="firstName" required >
+        <mat-error *ngIf="submitted && control.firstName.errors">
+          Please complete the first Name
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Last Name" [(ngModel)]="data.lastName" formControlName="lastName" name="lastName" required >
+        <mat-error *ngIf="submitted" >
+          Please complete the last name
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Document Number" [(ngModel)]="data.documentNumber" formControlName="documentNumber" name="documentNumber" maxlength="11" required >
+        <mat-error *ngIf="submitted" >
+          Please complete the document number
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Cellphone" type="number" [(ngModel)]="data.cellphone" formControlName="cellphone" name="cellphone">
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Email" [(ngModel)]="data.email" formControlName="email" name="email" > 
+        <mat-error *ngIf="submitted" >
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+          <input matInput [matDatepicker]="picker" placeholder="Choose a date"  (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" formControlName="birthDate" name="birthDate" >
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button [type]="submit" [disabled]="!createForm.valid" >Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>

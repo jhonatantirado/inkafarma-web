@@ -25,9 +25,9 @@ export class HeaderComponent implements OnInit {
   }
 
   getNombres() : String{
-    if (localStorage.getItem('currentUser')) {
+    if (sessionStorage.getItem('currentUser')) {
       var currentUser : User;
-      currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
       return currentUser.firstName + ' ' + currentUser.lastName;
     }
     return "";
