@@ -7,18 +7,19 @@ export class JwtInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log('jwt.interceptor.0');
         
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        let token = localStorage.getItem('token');
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        let token = sessionStorage.getItem('token');
         if (currentUser && token) {
+            console.log('jwt.interceptor.1');
             const headers = new HttpHeaders({
-                'Authorization': `${localStorage.getItem('token')}`,
+                'Authorization': `${sessionStorage.getItem('token')}`,
                 'Content-Type':  'application/json',
                 'Access-Control-Allow-Origin': '*'
             });
             request = request.clone({headers});
 
         }
-        console.log('jwt.interceptor.1');
+        console.log('jwt.interceptor.2');
         return next.handle(request);
     }
 }

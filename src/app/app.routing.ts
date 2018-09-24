@@ -19,8 +19,6 @@ const appRoutes: Routes = [
     { path: '**', redirectTo: '' }
 ];
 
-//export const routing = RouterModule.forRoot(appRoutes);
-
 @NgModule({
     imports: [    
       RouterModule.forRoot(appRoutes)

@@ -9,19 +9,20 @@ import { BlockUIModule } from 'ng-block-ui';
 import { AppComponent }  from './app.component';
 import { AppRoutingModule }        from './app.routing';
 import { HeaderComponent } from '../app/components/header/header.component';
+import { AddDialogCustomerComponent} from './modules/customer/add/add.dialog.component';
 
 import { AuthGuard } from './guards';
 import { JwtInterceptor, ErrorInterceptor } from './helpers';
-import { AuthenticationService, UserService } from './services';
+import { AuthenticationService, UserService, CustomerService } from './services';
 import { MessageAlertHandleService } from './services/message-alert.service';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 
 import {
-    MatCardModule, MatFormFieldModule,
+    MatCardModule, MatFormFieldModule, 
     MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule,
-    MatProgressSpinnerModule, MatDatepickerModule, MatNativeDateModule, 
+    MatProgressSpinnerModule, MatDatepickerModule, MatNativeDateModule, MatSliderModule,
     MatCheckboxModule, MatTableModule, MatToolbarModule, MAT_DIALOG_DATA, MatDialogRef
   } from '@angular/material';
 
@@ -64,13 +65,18 @@ import {
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-        HeaderComponent
+        HeaderComponent,
+        AddDialogCustomerComponent
     ],
+    entryComponents: [
+        AddDialogCustomerComponent
+      ],
     providers: [
         AuthGuard,
         AuthenticationService,
         MessageAlertHandleService,
         UserService,
+        CustomerService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: MatDialogRef, useValue: {} }, 

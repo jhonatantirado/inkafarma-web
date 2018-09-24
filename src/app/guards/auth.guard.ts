@@ -8,7 +8,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         console.log('auth.guard.0');
-        if (localStorage.getItem('currentUser')) {
+        if (sessionStorage.getItem('currentUser')) {
             return true;
         }
         this.router.navigate(['/login']); //rfv

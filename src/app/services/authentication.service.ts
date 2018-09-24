@@ -15,12 +15,12 @@ export class AuthenticationService {
     { }
 
     login(username: string, password: string) {
-        return this.http.post<ResponseApi>(`${environment.apiUrl}/users/authenticate`, { username: username, password: password })
+        return this.http.post<ResponseApi>(`${environment.apiUrl}/login`, { username: username, password: password })
             .pipe(map(
                 successData => {
                     if (successData && successData.response.content) {
-                        localStorage.setItem('currentUser', JSON.stringify(successData.response.content));
-                        localStorage.setItem("token", successData.response.message);
+                        sessionStorage.setItem('currentUser', JSON.stringify(successData.response.content));
+                        sessionStorage.setItem("token", successData.response.message);
                         this.loggedIn.next(true);
                     }
                     return successData;
@@ -29,8 +29,8 @@ export class AuthenticationService {
     }
 
     logout() {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('token');
         this.loggedIn.next(false);
         this.router.navigate(['/login']);
     }
