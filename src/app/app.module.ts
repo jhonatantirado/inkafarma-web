@@ -10,6 +10,8 @@ import { AppComponent }  from './app.component';
 import { AppRoutingModule }        from './app.routing';
 import { HeaderComponent } from '../app/components/header/header.component';
 import { AddDialogCustomerComponent} from './modules/customer/add/add.dialog.component';
+import { EditDialogCustomerComponent} from './modules/customer/edit/edit.dialog.component';
+import { DeleteDialogCustomerComponent} from './modules/customer/delete/delete.dialog.component';
 
 import { AuthGuard } from './guards';
 import { JwtInterceptor, ErrorInterceptor } from './helpers';
@@ -66,10 +68,14 @@ import {
         LoginComponent,
         RegisterComponent,
         HeaderComponent,
-        AddDialogCustomerComponent
+        AddDialogCustomerComponent,
+        EditDialogCustomerComponent,
+        DeleteDialogCustomerComponent
     ],
     entryComponents: [
-        AddDialogCustomerComponent
+        AddDialogCustomerComponent,
+        EditDialogCustomerComponent,
+        DeleteDialogCustomerComponent
       ],
     providers: [
         AuthGuard,

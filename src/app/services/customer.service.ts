@@ -9,6 +9,7 @@ import 'rxjs/add/observable/throw';
 
 import { environment } from '../../environments/environment';
 import { Customer } from '../models/customer';
+import { RequestCustomerDto } from '../models/dto/requestCustomerDto';
 import { ResponseAllCustomersDto } from '../models/dto/responseAllCustomersDto';
 import { ResponseApi } from '../models/responseApi';
 
@@ -36,7 +37,7 @@ export class CustomerService {
         return this.http.post<ResponseApi>(`${environment.apiUrl}/Customers/customer`, customer);
     }
 
-    updateCustomer(id : number, customer: Customer) {
+    updateCustomer(id : number, customer: RequestCustomerDto) {
         return this.http.put<ResponseApi>(`${environment.apiUrl}/Customers/customer/` + id, customer);
     }
 

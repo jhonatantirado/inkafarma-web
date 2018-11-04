@@ -8,8 +8,8 @@ import {DataSource} from '@angular/cdk/collections';
 import {BlockUI, NgBlockUI } from 'ng-block-ui';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AddDialogCustomerComponent} from '.././add/add.dialog.component';
-//import {EditDialogComponent} from '.././edit/edit.dialog.component';
-//import {DeleteDialogComponent} from '.././delete/delete.dialog.component';
+import {EditDialogCustomerComponent} from '.././edit/edit.dialog.component';
+import {DeleteDialogCustomerComponent} from '.././delete/delete.dialog.component';
 //import {ActivateDialogComponent} from '.././activate/activate.dialog.component';
 import { MessageAlertHandleService } from '../../../services/message-alert.service';
 import { CustomerService} from '../../../services/customer.service';
@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
   index: number;
   id: number;
   customerDatabase: CustomerDataBase | null;
-  //data: Customer[] = []; 
+  //data: Customer[] = [];
   dataSource: MatTableDataSource<Customer>;
 
   resultsLength = 0;
@@ -85,7 +85,7 @@ export class ListComponent implements OnInit {
          ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
      }
   
-     applyFilter(filterValue: string) {
+    applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     
         if (this.dataSource.paginator) {
@@ -93,29 +93,60 @@ export class ListComponent implements OnInit {
         }
     }
     
-      addNew(customer: Customer) {
+    addNew(customer: Customer) {
         const dialogRef = this.dialog.open(AddDialogCustomerComponent, {
           data: {customer: customer }
-        });
-  
+        });  
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
-              console.log('rfv');
+            //this.changingData();    //rfv
           }
         });
-      }
+    }
 
-      startEdit(i: number, customer : Customer) {
-          
-      }
+    startEdit(i: number, customer : Customer) {
+        this.id = customer.id;
+        this.index = i;
+        const dialogRef = this.dialog.open(EditDialogCustomerComponent, {
+          data: {id: customer.id, 
+                firstName: customer.firstName, 
+                lastName: customer.lastName, 
+                documentNumber: customer.documentNumber, 
+                cellphone: customer.cellphone, 
+                email: customer.email,
+                isActive: customer.isActive}
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 1) {
+            //this.changingData();    //rfv
+          }
+        });
+    }
 
-      deleteItem(i: number, customer : Customer) {
-          
-      }
+    deleteItem(i: number, customer : Customer) {
+        this.id = customer.id;
+        this.index = i;
+        const dialogRef = this.dialog.open(DeleteDialogCustomerComponent, {
+          data: {id: customer.id, 
+                firstName: customer.firstName, 
+                lastName: customer.lastName, 
+                documentNumber: customer.documentNumber, 
+                cellphone: customer.cellphone, 
+                email: customer.email, 
+                isActive: customer.isActive,                
+                birthDate : customer.birthDate}
+        });
 
-      activateItem(i: number, customer : Customer) {
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 1) {            
+              //this.changingData();    //rfv        
+          }
+        });      
+    }
+
+    activateItem(i: number, customer : Customer) {
           
-      }
+    }
     
     private refreshTable() {
 
@@ -138,48 +169,49 @@ export class CustomerDataBase {
       if(pageSize === undefined){
         pageSize = this.pageSize;
       }
-      ////// rfv //////
+      ////// rfv ////// -- quitar desde qui
           var dto = new ResponseAllCustomersDto();
           var customer = new Customer();
           var data2: Customer[] = [];
+          
 
           if(pageSize != 5){
             dto.totalPages = 1;
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            dto.totalRecords = 9;
+            for(var i=1; i<=6; i++){
+              customer = new Customer();
+              customer.id = i;
+              customer.documentNumber = "47288664";
+              customer.firstName = "Richar";
+              customer.lastName = "Fernandez";
+              customer.isActive = "1";
+              customer.cellphone = "111111";
+              data2.push(customer);
+            }
+            dto.totalRecords = 6;
           }
           if(pageSize == 5){
             dto.totalPages = 2;
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
-            data2.push(customer);
+            for(var i=1; i<=5; i++){
+              customer = new Customer();
+              customer.id = i;
+              customer.documentNumber = "47288664";
+              customer.firstName = "Richar";
+              customer.lastName = "Fernandez";
+              customer.isActive = "1";
+              customer.cellphone = "111111";
+              data2.push(customer);
+            }
             dto.totalRecords = 5;
           }
           dto.currentPage = 1;
-          dto.pageSize =  pageSize;      
-          
-          customer.id = 1;
-          customer.documentNumber = "47288664";
-          customer.firstName = "Richar";
-          customer.lastName = "Fernandez";
-          customer.isActive = "1";
-          customer.cellphone = "111111";      
-          
+          dto.pageSize =  pageSize; 
           dto.content = data2;
+          
 
           return observableOf(dto);
-    //////  rfv
-     /* rfv
+    //////  rfv  -- rfv quitar hasta aqui
+
+     /* rfv   -- descomentar
       return this.customerService.getAllCustomersByLimit( (pageIndex + 1), pageSize)
           .pipe(map(
                 successData => {

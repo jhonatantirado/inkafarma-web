@@ -1,11 +1,11 @@
 <div class="container">
-  <h3 mat-dialog-title>Add new Customer</h3>
+  <h3 mat-dialog-title>Customer id: {{data.id}}</h3>
 
-  <form class="mat-dialog-content" (ngSubmit)="onSubmit()" [formGroup]="createForm" >
+  <form class="mat-dialog-content" (ngSubmit)="onSubmit()" [formGroup]="editForm">
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="First Name"  formControlName="firstName" name="firstName" required >
+        <input matInput #input class="form-control" placeholder="First Name" formControlName="firstName" name="firstName" required  >
         <mat-error *ngIf="submitted && control.firstName.errors">
           Please complete the first Name
         </mat-error>
@@ -22,12 +22,12 @@
     </div>
 
     <div class="form">
-      <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Document Number" formControlName="documentNumber" name="documentNumber" maxlength="8" required >
-        <mat-error *ngIf="submitted" >
-          Please complete the document number
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field color="accent">
+          <input matInput #input class="form-control" placeholder="Document Number" formControlName="documentNumber" name="documentNumber" maxlength="8" required >
+          <mat-error *ngIf="submitted" >
+            Please complete the document number
+          </mat-error>
+        </mat-form-field>
     </div>
 
     <div class="form">
@@ -45,16 +45,8 @@
       </mat-form-field>
     </div>
 
-    <div class="form">
-      <mat-form-field color="accent">
-          <input matInput [matDatepicker]="picker" placeholder="Choose a date"  (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" formControlName="birthDate" name="birthDate" >
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
-      </mat-form-field>
-    </div>
-
     <div mat-dialog-actions>
-      <button mat-button [type]="submit" [disabled]="!createForm.valid" >Save</button>
+      <button mat-button [type]="submit" [disabled]="!editForm.valid" >Save</button>
       <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
     </div>
   </form>
