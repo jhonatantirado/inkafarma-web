@@ -13,9 +13,11 @@ import { AddDialogCustomerComponent} from './modules/customer/add/add.dialog.com
 import { EditDialogCustomerComponent} from './modules/customer/edit/edit.dialog.component';
 import { DeleteDialogCustomerComponent} from './modules/customer/delete/delete.dialog.component';
 
+import { AddDialogProductComponent} from './modules/product/add/add.dialog.component';
+
 import { AuthGuard } from './guards';
 import { JwtInterceptor, ErrorInterceptor } from './helpers';
-import { AuthenticationService, UserService, CustomerService } from './services';
+import { AuthenticationService, UserService, CustomerService, ProductService } from './services';
 import { MessageAlertHandleService } from './services/message-alert.service';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
@@ -70,12 +72,14 @@ import {
         HeaderComponent,
         AddDialogCustomerComponent,
         EditDialogCustomerComponent,
-        DeleteDialogCustomerComponent
+        DeleteDialogCustomerComponent,
+        AddDialogProductComponent
     ],
     entryComponents: [
         AddDialogCustomerComponent,
         EditDialogCustomerComponent,
-        DeleteDialogCustomerComponent
+        DeleteDialogCustomerComponent,
+        AddDialogProductComponent
       ],
     providers: [
         AuthGuard,
@@ -83,6 +87,7 @@ import {
         MessageAlertHandleService,
         UserService,
         CustomerService,
+        ProductService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: MatDialogRef, useValue: {} }, 
