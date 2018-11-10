@@ -16,6 +16,7 @@ import { DeleteDialogCustomerComponent} from './modules/customer/delete/delete.d
 
 import { AddDialogProductComponent} from './modules/product/add/add.dialog.component';
 import { EditDialogProductComponent} from './modules/product/edit/edit.dialog.component';
+import { DeleteDialogProductComponent} from './modules/product/delete/delete.dialog.component';
 
 import { AuthGuard } from './guards';
 import { JwtInterceptor, ErrorInterceptor } from './helpers';
@@ -78,14 +79,16 @@ import {
         EditDialogCustomerComponent,
         DeleteDialogCustomerComponent,
         AddDialogProductComponent,
-        EditDialogProductComponent
+        EditDialogProductComponent,
+        DeleteDialogProductComponent
     ],
     entryComponents: [
         AddDialogCustomerComponent,
         EditDialogCustomerComponent,
         DeleteDialogCustomerComponent,
         AddDialogProductComponent,
-        EditDialogProductComponent
+        EditDialogProductComponent,
+        DeleteDialogProductComponent
       ],
     providers: [
         AuthGuard,

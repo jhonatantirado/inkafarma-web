@@ -9,7 +9,7 @@ import {BlockUI, NgBlockUI } from 'ng-block-ui';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AddDialogProductComponent} from '.././add/add.dialog.component';
 import {EditDialogProductComponent} from '.././edit/edit.dialog.component';
-//import {DeleteDialogCustomerComponent} from '.././delete/delete.dialog.component';
+import {DeleteDialogProductComponent} from '.././delete/delete.dialog.component';
 //import {ActivateDialogComponent} from '.././activate/activate.dialog.component';
 import { MessageAlertHandleService } from '../../../services/message-alert.service';
 import { ProductService} from '../../../services/product.service';
@@ -132,18 +132,23 @@ export class ListComponentProduct implements OnInit {
     }
 
     deleteItem(i: number, product : Product) {
-      /*
-        this.id = customer.id;
+      
+        this.id = product.id;
         this.index = i;
-        const dialogRef = this.dialog.open(DeleteDialogCustomerComponent, {
-          data: {id: customer.id, 
-                firstName: customer.firstName, 
-                lastName: customer.lastName, 
-                documentNumber: customer.documentNumber, 
-                cellphone: customer.cellphone, 
-                email: customer.email, 
-                isActive: customer.isActive,                
-                birthDate : customer.birthDate}
+        const dialogRef = this.dialog.open(DeleteDialogProductComponent, {
+          data: {id: product.id, 
+                name: product.name, 
+                price: product.price, 
+                currency: product.currency, 
+                stock: product.stock, 
+                categoryId: product.categoryId,
+                lotNumber: product.lotNumber,
+                sanitaryRegistrationNumber: product.sanitaryRegistrationNumber,
+                registrationDate: product.registrationDate,
+                expirationDate: product.expirationDate,
+                status: product.status,
+                stockStatus: product.stockStatus
+              }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -151,7 +156,7 @@ export class ListComponentProduct implements OnInit {
               //this.changingData();    //rfv        
           }
         });
-      */
+      
     }
 
     activateItem(i: number, product : Product) {
