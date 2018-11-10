@@ -4,6 +4,8 @@ import {BlockUI, NgBlockUI } from 'ng-block-ui';
 import {ProductService} from '../../../services/product.service';
 import {FormControl, Validators, FormGroup ,FormBuilder } from '@angular/forms';
 import {Product} from '../../../models/product';
+import {Currency} from '../../../models/currency';
+import {CategoryProduct} from '../../../models/categoryProduct';
 import {MessageAlertHandleService} from '../../../services/message-alert.service';
 import * as moment from 'moment';
 import * as HttpStatus from 'http-status-codes'
@@ -21,6 +23,21 @@ export class AddDialogProductComponent implements OnInit {
   submitted = false;
   dateRegistration = new Date();
   dateExpiration = new Date();
+  currencyList: Currency[] = [
+    {value: 'PEN', viewValue: 'Soles'},
+    {value: 'USD', viewValue: 'Dólares'},
+    {value: 'EUR', viewValue: 'Euros'}
+  ];
+  categoryList: CategoryProduct[] = [
+    {value: 1, viewValue: 'Analgésicos'},
+    {value: 2, viewValue: 'Antiácidos y antiulcerosos'},
+    {value: 3, viewValue: 'Antialérgicos'},
+    {value: 4, viewValue: 'Antidiarreicos y laxantes'},
+    {value: 5, viewValue: 'Antiinfecciosos'},
+    {value: 6, viewValue: 'Antiinflamatorios'},
+    {value: 7, viewValue: 'Antipiréticos'},
+    {value: 8, viewValue: 'Antitusivos y mucolíticos'}
+  ];
 
   constructor(public dialogRef: MatDialogRef<AddDialogProductComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Product,
@@ -73,6 +90,7 @@ export class AddDialogProductComponent implements OnInit {
         this.submitted = true
         this.blockUI.start();        
         this.preparateDataSubmit();
+        
         this._productService.addProduct(this.data).subscribe(
 
           successData => {              
@@ -91,6 +109,7 @@ export class AddDialogProductComponent implements OnInit {
           },
           () => {}
       );
+      
   }
 
   updateNewProduct(name : string){

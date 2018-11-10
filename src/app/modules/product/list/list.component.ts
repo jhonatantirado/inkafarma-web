@@ -8,7 +8,7 @@ import {DataSource} from '@angular/cdk/collections';
 import {BlockUI, NgBlockUI } from 'ng-block-ui';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AddDialogProductComponent} from '.././add/add.dialog.component';
-//import {EditDialogCustomerComponent} from '.././edit/edit.dialog.component';
+import {EditDialogProductComponent} from '.././edit/edit.dialog.component';
 //import {DeleteDialogCustomerComponent} from '.././delete/delete.dialog.component';
 //import {ActivateDialogComponent} from '.././activate/activate.dialog.component';
 import { MessageAlertHandleService } from '../../../services/message-alert.service';
@@ -106,24 +106,29 @@ export class ListComponentProduct implements OnInit {
     }
 
     startEdit(i: number, product : Product) {
-      /*
-        this.id = customer.id;
+        this.id = product.id;
         this.index = i;
-        const dialogRef = this.dialog.open(EditDialogCustomerComponent, {
-          data: {id: customer.id, 
-                firstName: customer.firstName, 
-                lastName: customer.lastName, 
-                documentNumber: customer.documentNumber, 
-                cellphone: customer.cellphone, 
-                email: customer.email,
-                isActive: customer.isActive}
+        const dialogRef = this.dialog.open(EditDialogProductComponent, {
+          data: {id: product.id, 
+                name: product.name, 
+                price: product.price, 
+                currency: product.currency, 
+                stock: product.stock, 
+                categoryId: product.categoryId,
+                lotNumber: product.lotNumber,
+                sanitaryRegistrationNumber: product.sanitaryRegistrationNumber,
+                registrationDate: product.registrationDate,
+                expirationDate: product.expirationDate,
+                status: product.status,
+                stockStatus: product.stockStatus
+               }
         });
+
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
             //this.changingData();    //rfv
           }
         });
-        */
     }
 
     deleteItem(i: number, product : Product) {

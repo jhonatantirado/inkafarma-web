@@ -42,6 +42,10 @@ export class RequestProductDto {
         this.lotNumber = value;
         return this;
     }
+    public setSanitaryRegistrationNumber(value: string): RequestProductDto {
+        this.sanitaryRegistrationNumber = value;
+        return this;
+    }
     public setRegistrationDate(value: string): RequestProductDto {
         this.registrationDate = value;
         return this;
