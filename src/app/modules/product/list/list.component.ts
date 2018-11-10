@@ -1,19 +1,19 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MatProgressSpinnerModule, MatTableDataSource, MatDialog, MatPaginator, MatSort, PageEvent} from '@angular/material';
-import {Customer} from '../../../models/customer';
+import {Product} from '../../../models/product';
 import {Observable, of as observableOf, BehaviorSubject, merge, empty} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {DataSource} from '@angular/cdk/collections';
 import {BlockUI, NgBlockUI } from 'ng-block-ui';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {AddDialogCustomerComponent} from '.././add/add.dialog.component';
-import {EditDialogCustomerComponent} from '.././edit/edit.dialog.component';
-import {DeleteDialogCustomerComponent} from '.././delete/delete.dialog.component';
+import {AddDialogProductComponent} from '.././add/add.dialog.component';
+import {EditDialogProductComponent} from '.././edit/edit.dialog.component';
+import {DeleteDialogProductComponent} from '.././delete/delete.dialog.component';
 //import {ActivateDialogComponent} from '.././activate/activate.dialog.component';
 import { MessageAlertHandleService } from '../../../services/message-alert.service';
-import { CustomerService} from '../../../services/customer.service';
-import { ResponseAllCustomersDto } from '../../../models/dto/responseAllCustomersDto';
+import { ProductService} from '../../../services/product.service';
+import { ResponseAllProductDto } from '../../../models/dto/responseAllProductDto';
 
 
 @Component({
@@ -21,14 +21,13 @@ import { ResponseAllCustomersDto } from '../../../models/dto/responseAllCustomer
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponentProduct implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
-  displayedColumns = ['id', 'firstName', 'lastName', 'documentNumber', 'cellphone', 'email', 'isActive', 'actions'];  
+  displayedColumns = ['id', 'name', 'price', 'currency', 'stock', 'categoryId', 'status', 'actions'];  
   index: number;
   id: number;
-  customerDatabase: CustomerDataBase | null;
-  //data: Customer[] = [];
-  dataSource: MatTableDataSource<Customer>;
+  productDatabase: ProductDataBase | null;
+  dataSource: MatTableDataSource<Product>;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -39,7 +38,7 @@ export class ListComponent implements OnInit {
   constructor(public httpClient: HttpClient,
               public dialog: MatDialog,
               public messageAlertHandleService: MessageAlertHandleService,
-              public customerService: CustomerService
+              public productService: ProductService
             ) {
               }
 
@@ -49,7 +48,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
       
-      this.customerDatabase = new CustomerDataBase(this.httpClient, this.customerService, this.messageAlertHandleService);
+      this.productDatabase = new ProductDataBase(this.httpClient, this.productService, this.messageAlertHandleService);
 
       // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -66,7 +65,7 @@ export class ListComponent implements OnInit {
             startWith({}),
             switchMap(() => {
               this.isLoadingResults = true;
-              return this.customerDatabase!.getCustomersList(
+              return this.productDatabase!.getProductList(
                 this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
             }),
             map(data => {
@@ -93,29 +92,38 @@ export class ListComponent implements OnInit {
         }
     }
     
-    addNew(customer: Customer) {
-        const dialogRef = this.dialog.open(AddDialogCustomerComponent, {
-          data: {customer: customer }
+    addNew(product: Product) {
+      
+        const dialogRef = this.dialog.open(AddDialogProductComponent, {
+          data: {product: product }
         });  
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
             //this.changingData();    //rfv
           }
         });
+        
     }
 
-    startEdit(i: number, customer : Customer) {
-        this.id = customer.id;
+    startEdit(i: number, product : Product) {
+        this.id = product.id;
         this.index = i;
-        const dialogRef = this.dialog.open(EditDialogCustomerComponent, {
-          data: {id: customer.id, 
-                firstName: customer.firstName, 
-                lastName: customer.lastName, 
-                documentNumber: customer.documentNumber, 
-                cellphone: customer.cellphone, 
-                email: customer.email,
-                isActive: customer.isActive}
+        const dialogRef = this.dialog.open(EditDialogProductComponent, {
+          data: {id: product.id, 
+                name: product.name, 
+                price: product.price, 
+                currency: product.currency, 
+                stock: product.stock, 
+                categoryId: product.categoryId,
+                lotNumber: product.lotNumber,
+                sanitaryRegistrationNumber: product.sanitaryRegistrationNumber,
+                registrationDate: product.registrationDate,
+                expirationDate: product.expirationDate,
+                status: product.status,
+                stockStatus: product.stockStatus
+               }
         });
+
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
             //this.changingData();    //rfv
@@ -123,28 +131,35 @@ export class ListComponent implements OnInit {
         });
     }
 
-    deleteItem(i: number, customer : Customer) {
-        this.id = customer.id;
+    deleteItem(i: number, product : Product) {
+      
+        this.id = product.id;
         this.index = i;
-        const dialogRef = this.dialog.open(DeleteDialogCustomerComponent, {
-          data: {id: customer.id, 
-                firstName: customer.firstName, 
-                lastName: customer.lastName, 
-                documentNumber: customer.documentNumber, 
-                cellphone: customer.cellphone, 
-                email: customer.email, 
-                isActive: customer.isActive,                
-                birthDate : customer.birthDate}
+        const dialogRef = this.dialog.open(DeleteDialogProductComponent, {
+          data: {id: product.id, 
+                name: product.name, 
+                price: product.price, 
+                currency: product.currency, 
+                stock: product.stock, 
+                categoryId: product.categoryId,
+                lotNumber: product.lotNumber,
+                sanitaryRegistrationNumber: product.sanitaryRegistrationNumber,
+                registrationDate: product.registrationDate,
+                expirationDate: product.expirationDate,
+                status: product.status,
+                stockStatus: product.stockStatus
+              }
         });
 
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {            
               //this.changingData();    //rfv        
           }
-        });      
+        });
+      
     }
 
-    activateItem(i: number, customer : Customer) {
+    activateItem(i: number, product : Product) {
           
     }
     
@@ -157,49 +172,52 @@ export class ListComponent implements OnInit {
     }
 }
 
-export class CustomerDataBase {
+export class ProductDataBase {
   pageSize : number = 20;
 
   constructor(private http: HttpClient, 
-              private customerService: CustomerService,
+              private productService: ProductService,
               private messageAlertHandleService: MessageAlertHandleService) {}
               
 
-  getCustomersList(sort: string, order: string, pageIndex: number, pageSize : number): Observable<ResponseAllCustomersDto> {
+  getProductList(sort: string, order: string, pageIndex: number, pageSize : number): Observable<ResponseAllProductDto> {
       if(pageSize === undefined){
         pageSize = this.pageSize;
       }
       ////// rfv ////// -- quitar desde qui
-          var dto = new ResponseAllCustomersDto();
-          var customer = new Customer();
-          var data2: Customer[] = [];
+      
+          var dto = new ResponseAllProductDto();
+          var product = new Product();
+          var data2: Product[] = [];
           
 
           if(pageSize != 5){
             dto.totalPages = 1;
             for(var i=1; i<=6; i++){
-              customer = new Customer();
-              customer.id = i;
-              customer.documentNumber = "47288664";
-              customer.firstName = "Richar";
-              customer.lastName = "Fernandez";
-              customer.isActive = "1";
-              customer.cellphone = "111111";
-              data2.push(customer);
+              product = new Product();
+              product.id = i;
+              product.name = "Aspirina";
+              product.price = 1.4;
+              product.currency = "PEN";
+              product.stock = i*2;
+              product.status = 1;
+              product.categoryId = 1;
+              data2.push(product);
             }
             dto.totalRecords = 6;
           }
           if(pageSize == 5){
             dto.totalPages = 2;
             for(var i=1; i<=5; i++){
-              customer = new Customer();
-              customer.id = i;
-              customer.documentNumber = "47288664";
-              customer.firstName = "Richar";
-              customer.lastName = "Fernandez";
-              customer.isActive = "1";
-              customer.cellphone = "111111";
-              data2.push(customer);
+              product = new Product();
+              product.id = i;
+              product.name = "Aspirina";
+              product.price = 1.4;
+              product.currency = "PEN";
+              product.stock = i*2;
+              product.status = 1;
+              product.categoryId = 1;
+              data2.push(product);
             }
             dto.totalRecords = 5;
           }
@@ -209,10 +227,11 @@ export class CustomerDataBase {
           
 
           return observableOf(dto);
+          
     //////  rfv  -- rfv quitar hasta aqui
 
      /* rfv   -- descomentar
-      return this.customerService.getAllCustomersByLimit( (pageIndex + 1), pageSize)
+      return this.productService.getAllProductsByLimit( (pageIndex + 1), pageSize)
           .pipe(map(
                 successData => {
                   return successData;

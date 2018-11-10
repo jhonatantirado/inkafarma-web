@@ -1,7 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-//import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -9,6 +8,7 @@ import 'rxjs/add/observable/throw';
 
 import { environment } from '../../environments/environment';
 import { Customer } from '../models/customer';
+import { RequestCustomerDto } from '../models/dto/requestCustomerDto';
 import { ResponseAllCustomersDto } from '../models/dto/responseAllCustomersDto';
 import { ResponseApi } from '../models/responseApi';
 
@@ -17,11 +17,11 @@ export class CustomerService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<Customer[]>(`${environment.apiUrl}/Customers/customer`);
+        return this.http.get<Customer[]>(`${environment.apiUrl}/Customers`);
     }
 
     getById(id: number) {
-        return this.http.get(`${environment.apiUrl}/Customers/customer/` + id);
+        return this.http.get(`${environment.apiUrl}/Customers/` + id);
     }
 
     getCustomerByNumDoc(numDoc : string) {
@@ -33,14 +33,14 @@ export class CustomerService {
     }
 
     addCustomer(customer: Customer) {
-        return this.http.post<ResponseApi>(`${environment.apiUrl}/Customers/customer`, customer);
+        return this.http.post<ResponseApi>(`${environment.apiUrl}/Customers`, customer);
     }
 
-    updateCustomer(id : number, customer: Customer) {
-        return this.http.put<ResponseApi>(`${environment.apiUrl}/Customers/customer/` + id, customer);
+    updateCustomer(id : number, customer: RequestCustomerDto) {
+        return this.http.put<ResponseApi>(`${environment.apiUrl}/Customers/` + id, customer);
     }
 
     deleteCustomer(id: number) {
-        return this.http.delete<ResponseApi>(`${environment.apiUrl}/Customers/customer/` + id);
+        return this.http.delete<ResponseApi>(`${environment.apiUrl}/Customers/` + id);
     }
 }

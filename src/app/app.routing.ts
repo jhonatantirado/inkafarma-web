@@ -5,13 +5,16 @@ import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { ListComponent as ListComponentCustomer } from './modules/customer/list/list.component';
+import { ListComponentProduct } from './modules/product/list/list.component';
 
 import { AuthGuard } from './guards';
 import { CustomerModule } from './modules/customer/customer.module';
+import { ProductModule } from './modules/product/product.module';
 
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'product/list', component: ListComponentProduct, canActivate: [AuthGuard] },
     { path: 'customer/list', component: ListComponentCustomer, canActivate: [AuthGuard] },
     { path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
@@ -25,7 +28,8 @@ const appRoutes: Routes = [
     ],
     exports: [
       CustomerModule,
-      RouterModule, CustomerModule
+      ProductModule,
+      RouterModule
     ]
   })
   export class AppRoutingModule { }

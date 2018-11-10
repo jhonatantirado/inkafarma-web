@@ -24,7 +24,7 @@ export class AddDialogCustomerComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AddDialogCustomerComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Customer,
               private formBuilder: FormBuilder,
-              public _messageAlertHandleService: MessageAlertHandleService,
+              public _messageAlertHandleService:MessageAlertHandleService ,
               public _customerService: CustomerService) { }
 
   ngOnInit() {
@@ -52,23 +52,23 @@ export class AddDialogCustomerComponent implements OnInit {
       this.data.id = null;
       this.data.firstName = this.control.firstName.value;
       this.data.lastName = this.control.lastName.value;
+      this.data.documentNumber = this.control.documentNumber.value;
       this.data.email = this.control.email.value;
+      this.data.cellphone = this.control.cellphone.value;
+      if(this.dateCustomer != null){          
+        this.data.birthDate = moment(this.dateCustomer).format('YYYY-MM-DD');
+      }
+      this.data.isActive = "1";
   }
 
   public onSubmit(): void {
         this.submitted = true
-        this.blockUI.start();
-        
-        if(this.dateCustomer != null){          
-          this.data.birthDate = moment(this.dateCustomer).format('YYYY-MM-DD');
-        }        
-
-        this.data.isActive = "1";
+        this.blockUI.start();        
+        this.preparateDataSubmit();
         this._customerService.addCustomer(this.data).subscribe(
 
           successData => {              
               this.blockUI.stop();
-              
               if(successData.response.httpStatus == HttpStatus.CREATED.toString()){
                 this.updateNewCustomer(this.data.documentNumber);
                 this._messageAlertHandleService.handleSuccess(successData.response.message);
@@ -79,6 +79,7 @@ export class AddDialogCustomerComponent implements OnInit {
           },
           error => {
               this.blockUI.stop();
+              this.dialogRef.close(1); // rfv - quitar
           },
           () => {}
       );
@@ -91,8 +92,7 @@ export class AddDialogCustomerComponent implements OnInit {
               this.data.id = successData.id;
             }
         },
-        error => {
-        },
+        error => {},
         () => {}
     );
   }

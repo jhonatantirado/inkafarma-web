@@ -9,11 +9,18 @@ import { BlockUIModule } from 'ng-block-ui';
 import { AppComponent }  from './app.component';
 import { AppRoutingModule }        from './app.routing';
 import { HeaderComponent } from '../app/components/header/header.component';
+
 import { AddDialogCustomerComponent} from './modules/customer/add/add.dialog.component';
+import { EditDialogCustomerComponent} from './modules/customer/edit/edit.dialog.component';
+import { DeleteDialogCustomerComponent} from './modules/customer/delete/delete.dialog.component';
+
+import { AddDialogProductComponent} from './modules/product/add/add.dialog.component';
+import { EditDialogProductComponent} from './modules/product/edit/edit.dialog.component';
+import { DeleteDialogProductComponent} from './modules/product/delete/delete.dialog.component';
 
 import { AuthGuard } from './guards';
 import { JwtInterceptor, ErrorInterceptor } from './helpers';
-import { AuthenticationService, UserService, CustomerService } from './services';
+import { AuthenticationService, UserService, CustomerService, ProductService } from './services';
 import { MessageAlertHandleService } from './services/message-alert.service';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
@@ -22,7 +29,7 @@ import { RegisterComponent } from './register';
 import {
     MatCardModule, MatFormFieldModule, 
     MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule,
-    MatProgressSpinnerModule, MatDatepickerModule, MatNativeDateModule, MatSliderModule,
+    MatProgressSpinnerModule, MatDatepickerModule, MatNativeDateModule, MatSliderModule, MatSelectModule,
     MatCheckboxModule, MatTableModule, MatToolbarModule, MAT_DIALOG_DATA, MatDialogRef
   } from '@angular/material';
 
@@ -55,10 +62,12 @@ import {
         MatCheckboxModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatSelectModule,
         MatNativeDateModule
     ],
     exports: [
-        MatDatepickerModule
+        MatDatepickerModule,
+        MatSelectModule
       ],
     declarations: [
         AppComponent,
@@ -66,10 +75,20 @@ import {
         LoginComponent,
         RegisterComponent,
         HeaderComponent,
-        AddDialogCustomerComponent
+        AddDialogCustomerComponent,
+        EditDialogCustomerComponent,
+        DeleteDialogCustomerComponent,
+        AddDialogProductComponent,
+        EditDialogProductComponent,
+        DeleteDialogProductComponent
     ],
     entryComponents: [
-        AddDialogCustomerComponent
+        AddDialogCustomerComponent,
+        EditDialogCustomerComponent,
+        DeleteDialogCustomerComponent,
+        AddDialogProductComponent,
+        EditDialogProductComponent,
+        DeleteDialogProductComponent
       ],
     providers: [
         AuthGuard,
@@ -77,6 +96,7 @@ import {
         MessageAlertHandleService,
         UserService,
         CustomerService,
+        ProductService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: MatDialogRef, useValue: {} }, 
