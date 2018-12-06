@@ -77,6 +77,10 @@ export class EditDialogProductComponent {
       this.control.expirationDate.setValue(this.data.expiration_date);
   }
 
+  addEventExpiration(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.dateExpiration = event.value;
+  }
+
   preparateDataSubmit(){
     if(this.dateExpiration != null){          
       this.data.expiration_date = moment(this.dateExpiration).format('YYYY-MM-DD');
