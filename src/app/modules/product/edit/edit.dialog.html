@@ -83,7 +83,7 @@
     </div>
 
     <div mat-dialog-actions>
-      <button mat-button [type]="submit" [disabled]="!editForm.valid" >Save</button>
+      <button mat-button [type]="onSubmit" [disabled]="!editForm.valid" >Save</button>
       <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
     </div>
   </form>

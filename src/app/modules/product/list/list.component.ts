@@ -59,7 +59,9 @@ export class ListComponentProduct implements OnInit {
       if(this.paginator != undefined){
         this.dataSource.paginator = this.paginator;
       }      
-      this.dataSource.sort = this.sort;
+      if(this.sort != undefined){
+        this.dataSource.sort = this.sort;
+      }        
     }
 
     changingData(){
@@ -82,7 +84,6 @@ export class ListComponentProduct implements OnInit {
               this.isRateLimitReached = true;
               return observableOf([]);
             })
-          //).subscribe(data => this.data = data);
          ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
      }
   
