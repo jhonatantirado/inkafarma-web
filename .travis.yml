@@ -8,6 +8,16 @@ before_script:
 - npm install -g --silent @angular/cli
 script: 
 - ng build --prod
+- chmod +x dist
+- chmod +x dist/inkafarma-web
+before_deploy:
+- ls
+- ls dist
+- ls dist/inkafarma-web
+- sudo cp manifest.yml dist/inkafarma-web
+- sudo cp Staticfile dist/inkafarma-web
+- ls dist/inkafarma-web
+- cd dist/inkafarma-web
 deploy:
   provider: cloudfoundry
   skip_cleanup: true
