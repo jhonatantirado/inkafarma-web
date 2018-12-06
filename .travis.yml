@@ -6,7 +6,7 @@ branches:
   - master
 before_script:
 - npm install -g --silent @angular/cli
-script: 
+script:
 - ng build --prod
 - chmod +x dist
 - chmod +x dist/inkafarma-web
