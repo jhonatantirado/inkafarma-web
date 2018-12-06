@@ -10,6 +10,7 @@ script:
 - ng build --prod
 - chmod +x dist
 - chmod +x dist/inkafarma-web
+
 before_deploy:
 - ls
 - ls dist
