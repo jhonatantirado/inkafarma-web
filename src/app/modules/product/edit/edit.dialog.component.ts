@@ -71,15 +71,15 @@ export class EditDialogProductComponent {
       this.control.price.setValue(this.data.price);
       this.control.currency.setValue(this.data.currency);
       this.control.stock.setValue(this.data.stock);
-      this.control.categoryId.setValue(this.data.categoryId);
-      this.control.lotNumber.setValue(this.data.lotNumber);
-      this.control.sanitaryRegistrationNumber.setValue(this.data.sanitaryRegistrationNumber);
-      this.control.expirationDate.setValue(this.data.expirationDate);
+      this.control.categoryId.setValue(this.data.category_id);
+      this.control.lotNumber.setValue(this.data.lot_number);
+      this.control.sanitaryRegistrationNumber.setValue(this.data.sanitary_registration_number);
+      this.control.expirationDate.setValue(this.data.expiration_date);
   }
 
   preparateDataSubmit(){
     if(this.dateExpiration != null){          
-      this.data.expirationDate = moment(this.dateExpiration).format('YYYY-MM-DD');
+      this.data.expiration_date = moment(this.dateExpiration).format('YYYY-MM-DD');
     }
 
     this.requestProduct = new RequestProductDto()
@@ -90,10 +90,10 @@ export class EditDialogProductComponent {
           .setCategoryId(this.control.categoryId.value)
           .setLotNumber(this.control.lotNumber.value)
           .setSanitaryRegistrationNumber(this.control.sanitaryRegistrationNumber.value)
-          .setRegistrationDate(this.data.registrationDate)
-          .setExpirationDate(this.data.expirationDate)
+          .setRegistrationDate(this.data.registration_date)
+          .setExpirationDate(this.data.expiration_date)
           .setStatus(this.data.status)
-          .setStockStatus(this.data.stockStatus)
+          .setStockStatus(this.data.stock_status)
       ;
   }
 

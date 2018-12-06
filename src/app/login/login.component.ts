@@ -55,10 +55,11 @@ export class LoginComponent implements OnInit {
                     this.messageAlertHandleService.handleSuccess('Login successful');
                 },
                 error => {
+                    
+                    this.loading = false;
+                    this.messageAlertHandleService.handleError(error);
                     // rfv
-                    //.loading = false;
-                    //this.messageAlertHandleService.handleError(error);
-                    // rfv
+                    /*
                     var user = new User();
                     user.id = 2;
                     user.username = 'rernandezv';
@@ -71,6 +72,7 @@ export class LoginComponent implements OnInit {
                     console.log(error);
                     this.router.navigate([this.returnUrl]);
                     this.messageAlertHandleService.handleSuccess('Login successful temporarily');
+                    */
                     // rfv
                 },
                 () => {

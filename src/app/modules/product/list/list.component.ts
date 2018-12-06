@@ -23,7 +23,7 @@ import { ResponseAllProductDto } from '../../../models/dto/responseAllProductDto
 })
 export class ListComponentProduct implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
-  displayedColumns = ['id', 'name', 'price', 'currency', 'stock', 'categoryId', 'status', 'actions'];  
+  displayedColumns = ['id', 'name', 'price', 'currency', 'stock', 'currencyISOCode', 'status', 'actions'];  
   index: number;
   id: number;
   productDatabase: ProductDataBase | null;
@@ -55,7 +55,10 @@ export class ListComponentProduct implements OnInit {
 
       // Data
       this.changingData();
-      this.dataSource.paginator = this.paginator;
+      console.log(this.paginator);
+      if(this.paginator != undefined){
+        this.dataSource.paginator = this.paginator;
+      }      
       this.dataSource.sort = this.sort;
     }
 
@@ -71,9 +74,8 @@ export class ListComponentProduct implements OnInit {
             map(data => {
               this.isLoadingResults = false;
               this.isRateLimitReached = false;
-              this.resultsLength = data.totalRecords;
-
-              return data.content;
+              this.resultsLength = data.length;
+              return data;
             }),
             catchError(() => {
               this.isLoadingResults = false;
@@ -114,13 +116,14 @@ export class ListComponentProduct implements OnInit {
                 price: product.price, 
                 currency: product.currency, 
                 stock: product.stock, 
-                categoryId: product.categoryId,
-                lotNumber: product.lotNumber,
-                sanitaryRegistrationNumber: product.sanitaryRegistrationNumber,
-                registrationDate: product.registrationDate,
-                expirationDate: product.expirationDate,
+                currencyISOCode : product.currencyISOCode,
+                category_id: product.category_id,
+                lot_number: product.lot_number,
+                sanitary_registration_number: product.sanitary_registration_number,
+                registration_date: product.registration_date,
+                expiration_date: product.expiration_date,
                 status: product.status,
-                stockStatus: product.stockStatus
+                stock_status: product.stock_status
                }
         });
 
@@ -141,13 +144,14 @@ export class ListComponentProduct implements OnInit {
                 price: product.price, 
                 currency: product.currency, 
                 stock: product.stock, 
-                categoryId: product.categoryId,
-                lotNumber: product.lotNumber,
-                sanitaryRegistrationNumber: product.sanitaryRegistrationNumber,
-                registrationDate: product.registrationDate,
-                expirationDate: product.expirationDate,
+                currencyISOCode : product.currencyISOCode,
+                category_id: product.category_id,
+                lot_number: product.lot_number,
+                sanitary_registration_number: product.sanitary_registration_number,
+                registration_date: product.registration_date,
+                expiration_date: product.expiration_date,
                 status: product.status,
-                stockStatus: product.stockStatus
+                stock_status: product.stock_status
               }
         });
 
@@ -180,69 +184,21 @@ export class ProductDataBase {
               private messageAlertHandleService: MessageAlertHandleService) {}
               
 
-  getProductList(sort: string, order: string, pageIndex: number, pageSize : number): Observable<ResponseAllProductDto> {
+  getProductList(sort: string, order: string, pageIndex: number, pageSize : number): Observable< Product[]> {
       if(pageSize === undefined){
         pageSize = this.pageSize;
       }
-      ////// rfv ////// -- quitar desde qui
-      
-          var dto = new ResponseAllProductDto();
-          var product = new Product();
-          var data2: Product[] = [];
-          
-
-          if(pageSize != 5){
-            dto.totalPages = 1;
-            for(var i=1; i<=6; i++){
-              product = new Product();
-              product.id = i;
-              product.name = "Aspirina";
-              product.price = 1.4;
-              product.currency = "PEN";
-              product.stock = i*2;
-              product.status = 1;
-              product.categoryId = 1;
-              data2.push(product);
-            }
-            dto.totalRecords = 6;
-          }
-          if(pageSize == 5){
-            dto.totalPages = 2;
-            for(var i=1; i<=5; i++){
-              product = new Product();
-              product.id = i;
-              product.name = "Aspirina";
-              product.price = 1.4;
-              product.currency = "PEN";
-              product.stock = i*2;
-              product.status = 1;
-              product.categoryId = 1;
-              data2.push(product);
-            }
-            dto.totalRecords = 5;
-          }
-          dto.currentPage = 1;
-          dto.pageSize =  pageSize; 
-          dto.content = data2;
-          
-
-          return observableOf(dto);
-          
-    //////  rfv  -- rfv quitar hasta aqui
-
-     /* rfv   -- descomentar
-      return this.productService.getAllProductsByLimit( (pageIndex + 1), pageSize)
+   
+      return this.productService.getAllProducts( (pageIndex + 1), pageSize)
           .pipe(map(
-                successData => {
+                successData => {                 
                   return successData;
                 }
               ),
               catchError((err, caught) => {
-                // do anything if you want - rfv
                 return empty();
               })
           ); 
-    rfv */            
   }
 
   

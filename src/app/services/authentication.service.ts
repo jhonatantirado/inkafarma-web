@@ -15,7 +15,7 @@ export class AuthenticationService {
     { }
 
     login(username: string, password: string) {
-        return this.http.post<ResponseApi>(`${environment.apiUrl}/login`, { username: username, password: password })
+        return this.http.post<ResponseApi>(`${environment.apiUrl}/Security/login`, { username: username, password: password } ) 
             .pipe(map(
                 successData => {
                     if (successData && successData.response.content) {

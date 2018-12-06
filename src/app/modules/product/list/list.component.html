@@ -29,15 +29,15 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header>Currency</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.currency}}</mat-cell>
       </ng-container>
+
+      <ng-container matColumnDef="currencyISOCode">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Currency Code</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.currencyISOCode}}</mat-cell>
+      </ng-container>
   
       <ng-container matColumnDef="stock">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Stock</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.stock}}</mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="categoryId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Category Id</mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.categoryId}}</mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="status">

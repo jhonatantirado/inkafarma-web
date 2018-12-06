@@ -33,7 +33,11 @@ export class ProductService {
     }
 
     getAllProductsByLimit(offset : number, limit : number) {
-        return this.http.get<ResponseAllProductDto>(`${environment.apiUrl}/Products/product?offset=` + offset+'&limit='+limit);        
+        return this.http.get<ResponseAllProductDto>(`${environment.apiUrl}/Products?page=` + offset+'&size='+limit);        
+    }
+
+    getAllProducts(offset : number, limit : number) {
+        return this.http.get<Product[]>(`${environment.apiUrl}/Products?page=` + offset+'&size='+limit);        
     }
 
     addProduct(product: Product) {
@@ -41,7 +45,7 @@ export class ProductService {
     }
 
     updateProduct(id : number, product: RequestProductDto) {
-        return this.http.put<ResponseApi>(`${environment.apiUrl}/Products/` + id, product);
+        return this.http.put<ResponseApi>(`${environment.apiUrl}/Products`, product);
     }
 
     deleteProduct(id: number) {
