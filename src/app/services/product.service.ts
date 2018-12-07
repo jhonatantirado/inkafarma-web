@@ -45,6 +45,7 @@ export class ProductService {
     }
 
     updateProduct(id : number, product: RequestProductDto) {
+        console.log(product);  // rfv
         return this.http.put<ResponseApi>(`${environment.apiUrl}/Products`, product);
     }
 
