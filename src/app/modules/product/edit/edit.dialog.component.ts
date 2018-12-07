@@ -87,6 +87,7 @@ export class EditDialogProductComponent {
     }
 
     this.requestProduct = new RequestProductDto()
+          .setId(this.data.id)
           .setName(this.control.name.value)
           .setPrice(this.control.price.value)
           .setCurrency(this.control.currency.value)
