@@ -105,7 +105,8 @@ export class EditDialogProductComponent {
   public onSubmit(): void {
         this.blockUI.start();
         this.preparateDataSubmit();  
-
+        console.log("aaaa"); //rfv
+        console.log(this.requestProduct); //rfv
         this._productService.updateProduct(this.data.id, this.requestProduct).subscribe(
             successData => {              
                 this.blockUI.stop();
@@ -118,8 +119,8 @@ export class EditDialogProductComponent {
                 }
             },
             error => {
+              console.log(error); //rfv
               this.blockUI.stop();
-              this.dialogRef.close(1); // rfv - quitar
             },
             () => {}
         );    
