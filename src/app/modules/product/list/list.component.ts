@@ -55,13 +55,16 @@ export class ListComponentProduct implements OnInit {
 
       // Data
       this.changingData();
-      console.log(this.paginator);
-      if(this.paginator != undefined){
-        this.dataSource.paginator = this.paginator;
-      }      
-      if(this.sort != undefined){
-        this.dataSource.sort = this.sort;
-      }        
+      if(this.dataSource != undefined){
+          if(this.paginator != undefined){
+            this.dataSource.paginator = this.paginator;
+          }      
+          if(this.sort != undefined){
+            this.dataSource.sort = this.sort;
+          }
+      }else{
+          this.dataSource = new MatTableDataSource();
+      }              
     }
 
     changingData(){
