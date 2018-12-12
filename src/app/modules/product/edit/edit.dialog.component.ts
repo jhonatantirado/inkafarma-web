@@ -5,6 +5,7 @@ import {ProductService} from '../../../services/product.service';
 import {FormControl, Validators, FormGroup ,FormBuilder } from '@angular/forms';
 import {Product} from '../../../models/product';
 import {Currency} from '../../../models/currency';
+import {CurrencyCompare} from '../../../models/currency';
 import {CategoryProduct} from '../../../models/categoryProduct';
 import {RequestProductDto} from '../../../models/dto/requestProductDto';
 import {RequestCustomerDto} from '../../../models/dto/requestCustomerDto';
@@ -25,9 +26,9 @@ export class EditDialogProductComponent {
   dateRegistration = new Date();
   dateExpiration = new Date();
   currencyList: Currency[] = [
-    {value: 'PEN', viewValue: 'Soles'},
-    {value: 'USD', viewValue: 'Dólares'},
-    {value: 'EUR', viewValue: 'Euros'}
+    {value: 604, viewValue: 'Soles'},
+    {value: 840, viewValue: 'Dólares'},
+    {value: 978, viewValue: 'Euros'}
   ];
   categoryList: CategoryProduct[] = [
     {value: 1, viewValue: 'Analgésicos'},
@@ -64,6 +65,7 @@ export class EditDialogProductComponent {
 
   onNoClick(): void {
     this.dialogRef.close('x');
+    console.log("close");
   }
 
   loadDataEdit(){
@@ -105,12 +107,13 @@ export class EditDialogProductComponent {
   public onSubmit(): void {
         this.blockUI.start();
         this.preparateDataSubmit();  
-        
-        console.log(this.requestProduct); //rfv
+        console.log("rfvvv");
+        console.log(this.requestProduct);
         this._productService.updateProduct(this.data.id, this.requestProduct).subscribe(
             successData => {              
                 this.blockUI.stop();
-                
+                console.log("eeeeeeee");
+                console.log(successData);
                 if(successData.response.httpStatus == HttpStatus.OK.toString()){
                   this._messageAlertHandleService.handleSuccess(successData.response.message);
                   this.dialogRef.close(1);              
@@ -119,6 +122,7 @@ export class EditDialogProductComponent {
                 }
             },
             error => {
+              console.log("error"); //rfv
               console.log(error); //rfv
               this.blockUI.stop();
             },

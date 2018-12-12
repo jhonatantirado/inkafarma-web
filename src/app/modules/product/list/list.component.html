@@ -61,10 +61,7 @@
           <button mat-icon-button color="accent" (click)="deleteItem(i, row)" *ngIf="row.status" >
             <mat-icon aria-label="Delete">delete</mat-icon>
           </button>
-  
-          <button mat-icon-button color="accent" (click)="activateItem(i, row)" *ngIf="!row.status" >
-            <mat-icon aria-label="Activate">check_circle</mat-icon>
-          </button>
+
         </mat-cell>
       </ng-container>
   

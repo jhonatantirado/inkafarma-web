@@ -25,7 +25,7 @@ export class ProductService {
     }
 
     getProductByName(categoryName : string) {
-        return this.http.get<Product>(`${environment.apiUrl}/Products/FindByName?CategoryName=` + categoryName);
+        return this.http.get<Product>(`${environment.apiUrl}/Products/FindByName?ProductName=` + categoryName);
     }
 
     getProductByCategory(categoryId : number) {
@@ -45,8 +45,7 @@ export class ProductService {
     }
 
     updateProduct(id : number, product: RequestProductDto) {
-        console.log(product);  // rfv
-        return this.http.put<ResponseApi>(`${environment.apiUrl}/Products`, product);
+        return this.http.put<ResponseApi>(`${environment.apiUrl}/Products/` + id, product);
     }
 
     deleteProduct(id: number) {

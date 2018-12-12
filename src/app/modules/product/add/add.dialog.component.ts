@@ -24,9 +24,9 @@ export class AddDialogProductComponent implements OnInit {
   dateRegistration = new Date();
   dateExpiration = new Date();
   currencyList: Currency[] = [
-    {value: 'PEN', viewValue: 'Soles'},
-    {value: 'USD', viewValue: 'Dólares'},
-    {value: 'EUR', viewValue: 'Euros'}
+    {value: 604, viewValue: 'Soles'},
+    {value: 840, viewValue: 'Dólares'},
+    {value: 978, viewValue: 'Euros'}
   ];
   categoryList: CategoryProduct[] = [
     {value: 1, viewValue: 'Analgésicos'},
@@ -69,8 +69,8 @@ export class AddDialogProductComponent implements OnInit {
   }
 
   preparateDataSubmit(){
-      this.data.id = null;
       this.data.name = this.control.name.value;
+      this.data.stock = this.control.stock.value;
       this.data.price = this.control.price.value;
       this.data.currency = this.control.currency.value;
       this.data.category_id = this.control.categoryId.value;

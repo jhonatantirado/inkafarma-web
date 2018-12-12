@@ -133,7 +133,7 @@ export class ListComponentProduct implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
-            //this.changingData();    //rfv
+            this.changingData();
           }
         });
     }
@@ -161,7 +161,7 @@ export class ListComponentProduct implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {            
-              //this.changingData();    //rfv        
+              this.changingData();  
           }
         });
       
@@ -193,7 +193,7 @@ export class ProductDataBase {
         pageSize = this.pageSize;
       }
    
-      return this.productService.getAllProductsByLimit( (pageIndex + 1), pageSize)
+      return this.productService.getAllProductsByLimit( (pageIndex), pageSize)
           .pipe(map(
                 successData => {                 
                   return successData;
