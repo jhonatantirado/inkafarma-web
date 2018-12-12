@@ -23,7 +23,7 @@ import { ResponseAllCustomersDto } from '../../../models/dto/responseAllCustomer
 })
 export class ListComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
-  displayedColumns = ['id', 'firstName', 'lastName', 'documentNumber', 'cellphone', 'email', 'isActive', 'actions'];  
+  displayedColumns = ['id', 'name', 'last_Name1', 'document_Number', 'telephone', 'email', 'status', 'actions'];  
   index: number;
   id: number;
   customerDatabase: CustomerDataBase | null;
@@ -50,7 +50,6 @@ export class ListComponent implements OnInit {
       
       this.customerDatabase = new CustomerDataBase(this.httpClient, this.customerService, this.messageAlertHandleService);
 
-      // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
       // Data
@@ -80,7 +79,6 @@ export class ListComponent implements OnInit {
               this.isLoadingResults = false;
               this.isRateLimitReached = false;
               this.resultsLength = data.totalRecords;
-
               return data.content;
             }),
             catchError(() => {
@@ -115,12 +113,12 @@ export class ListComponent implements OnInit {
         this.index = i;
         const dialogRef = this.dialog.open(EditDialogCustomerComponent, {
           data: {id: customer.id, 
-                firstName: customer.firstName, 
-                lastName: customer.lastName, 
-                documentNumber: customer.documentNumber, 
-                cellphone: customer.cellphone, 
+                name: customer.name, 
+                last_Name1: customer.last_Name1, 
+                document_Number: customer.document_Number, 
+                telephone: customer.telephone, 
                 email: customer.email,
-                isActive: customer.isActive}
+                status: customer.status}
         });
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
@@ -134,12 +132,12 @@ export class ListComponent implements OnInit {
         this.index = i;
         const dialogRef = this.dialog.open(DeleteDialogCustomerComponent, {
           data: {id: customer.id, 
-                firstName: customer.firstName, 
-                lastName: customer.lastName, 
-                documentNumber: customer.documentNumber, 
-                cellphone: customer.cellphone, 
+                name: customer.name, 
+                last_Name1: customer.last_Name1, 
+                document_Number: customer.document_Number, 
+                telephone: customer.telephone, 
                 email: customer.email, 
-                isActive: customer.isActive,                
+                status: customer.status,                
                 birthDate : customer.birthDate}
         });
 

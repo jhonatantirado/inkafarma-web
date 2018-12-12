@@ -37,6 +37,7 @@ export class CustomerService {
     }
 
     updateCustomer(id : number, customer: RequestCustomerDto) {
+        console.log(customer);
         return this.http.put<ResponseApi>(`${environment.apiUrl}/Customers/` + id, customer);
     }
 

@@ -29,10 +29,10 @@ export class AddDialogCustomerComponent implements OnInit {
 
   ngOnInit() {
         this.createForm = this.formBuilder.group({
-              firstName: ['', Validators.required],
-              lastName: ['', Validators.required],
-              documentNumber: ['', Validators.required],
-              cellphone: ['', Validators.required],
+              name: ['', Validators.required],
+              last_Name1: ['', Validators.required],
+              document_Number: ['', Validators.required],
+              telephone: ['', Validators.required],
               email: ['', Validators.required],
               birthDate: ['', Validators.required]
         });
@@ -50,15 +50,15 @@ export class AddDialogCustomerComponent implements OnInit {
 
   preparateDataSubmit(){
       this.data.id = null;
-      this.data.firstName = this.control.firstName.value;
-      this.data.lastName = this.control.lastName.value;
-      this.data.documentNumber = this.control.documentNumber.value;
+      this.data.name = this.control.name.value;
+      this.data.last_Name1 = this.control.last_Name1.value;
+      this.data.document_Number = this.control.document_Number.value;
       this.data.email = this.control.email.value;
-      this.data.cellphone = this.control.cellphone.value;
+      this.data.telephone = this.control.telephone.value;
       if(this.dateCustomer != null){          
         this.data.birthDate = moment(this.dateCustomer).format('YYYY-MM-DD');
       }
-      this.data.isActive = "1";
+      this.data.status = "1";
   }
 
   public onSubmit(): void {
@@ -70,7 +70,7 @@ export class AddDialogCustomerComponent implements OnInit {
           successData => {              
               this.blockUI.stop();
               if(successData.response.httpStatus == HttpStatus.CREATED.toString()){
-                this.updateNewCustomer(this.data.documentNumber);
+                this.updateNewCustomer(this.data.document_Number);
                 this._messageAlertHandleService.handleSuccess(successData.response.message);
                 this.dialogRef.close(1);
               }else{
@@ -79,7 +79,6 @@ export class AddDialogCustomerComponent implements OnInit {
           },
           error => {
               this.blockUI.stop();
-              this.dialogRef.close(1); // rfv - quitar
           },
           () => {}
       );

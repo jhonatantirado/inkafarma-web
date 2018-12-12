@@ -1,12 +1,12 @@
 <div class="container">
   <h3 mat-dialog-title>Add new Customer</h3>
 
-  <form class="mat-dialog-content" (ngSubmit)="onSubmit()" [formGroup]="createForm" >
+  <form class="mat-dialog-content" [formGroup]="createForm" >
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="First Name"  formControlName="firstName" name="firstName" required >
-        <mat-error *ngIf="submitted && control.firstName.errors">
+        <input matInput #input class="form-control" placeholder="First Name"  formControlName="name" name="name" required >
+        <mat-error *ngIf="submitted && control.name.errors">
           Please complete the first Name
         </mat-error>
       </mat-form-field>
@@ -14,7 +14,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Last Name" formControlName="lastName" name="lastName" required >
+        <input matInput #input class="form-control" placeholder="Last Name" formControlName="last_Name1" name="last_Name1" required >
         <mat-error *ngIf="submitted" >
           Please complete the last name
         </mat-error>
@@ -23,7 +23,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Document Number" formControlName="documentNumber" name="documentNumber" maxlength="8" required >
+        <input matInput #input class="form-control" placeholder="Document Number" formControlName="document_Number" name="document_Number" maxlength="8" required >
         <mat-error *ngIf="submitted" >
           Please complete the document number
         </mat-error>
@@ -32,7 +32,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput placeholder="Cellphone" type="number" formControlName="cellphone" name="cellphone">
+        <input matInput placeholder="Telephone" type="number" formControlName="telephone" name="telephone">
       </mat-form-field>
     </div>
 
@@ -54,7 +54,7 @@
     </div>
 
     <div mat-dialog-actions>
-      <button mat-button [type]="onSubmit" [disabled]="!createForm.valid" >Save</button>
+      <button mat-button (click)="onSubmit()" [disabled]="!createForm.valid" >Save</button>
       <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
     </div>
   </form>

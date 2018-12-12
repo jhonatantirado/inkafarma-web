@@ -34,7 +34,6 @@ export class DeleteDialogCustomerComponent {
           this.blockUI.stop();
 
           if(successData.response.httpStatus == HttpStatus.OK.toString() ){
-              //this.data.isActive = 'false';   // rfv
               this._messageAlertHandleService.handleSuccess(successData.response.message);
               this.dialogRef.close(1);
           }else{
@@ -43,7 +42,6 @@ export class DeleteDialogCustomerComponent {
       },
       error => {          
           this.blockUI.stop();
-          this.dialogRef.close(1); // rfv - quitar
       },
       () => {}
     );
