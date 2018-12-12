@@ -1,7 +1,7 @@
 <div class="container">
   <h3 mat-dialog-title>Product id: {{data.id}}</h3>
 
-  <form class="mat-dialog-content" (ngSubmit)="onSubmit()" [formGroup]="editForm">
+  <form class="mat-dialog-content"  [formGroup]="editForm">
 
     <div class="form">
       <mat-form-field color="accent">
@@ -83,7 +83,7 @@
     </div>
 
     <div mat-dialog-actions>
-      <button mat-button [type]="onSubmit" [disabled]="!editForm.valid" >Save</button>
+      <button mat-button (click)="onSubmit()" [disabled]="!editForm.valid" >Save</button>
       <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
     </div>
   </form>

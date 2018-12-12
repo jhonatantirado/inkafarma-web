@@ -63,11 +63,6 @@ export class EditDialogProductComponent {
 
   get control() { return this.editForm.controls; }
 
-  onNoClick(): void {
-    this.dialogRef.close('x');
-    console.log("close");
-  }
-
   loadDataEdit(){
       this.control.name.setValue(this.data.name);
       this.control.price.setValue(this.data.price);
@@ -105,15 +100,12 @@ export class EditDialogProductComponent {
   }
 
   public onSubmit(): void {
+        console.log("submit");
         this.blockUI.start();
         this.preparateDataSubmit();  
-        console.log("rfvvv");
-        console.log(this.requestProduct);
         this._productService.updateProduct(this.data.id, this.requestProduct).subscribe(
             successData => {              
                 this.blockUI.stop();
-                console.log("eeeeeeee");
-                console.log(successData);
                 if(successData.response.httpStatus == HttpStatus.OK.toString()){
                   this._messageAlertHandleService.handleSuccess(successData.response.message);
                   this.dialogRef.close(1);              
@@ -122,11 +114,15 @@ export class EditDialogProductComponent {
                 }
             },
             error => {
-              console.log("error"); //rfv
-              console.log(error); //rfv
               this.blockUI.stop();
             },
             () => {}
         );    
   }
+
+  public onNoClick(): void {
+    this.dialogRef.close('x');
+    console.log("close");
+  }
+
 }
