@@ -45,14 +45,6 @@
       </mat-form-field>
     </div>
 
-    <div class="form">
-      <mat-form-field color="accent">
-          <input matInput [matDatepicker]="picker" placeholder="Choose a date"  (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" formControlName="birthDate" name="birthDate" >
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
-      </mat-form-field>
-    </div>
-
     <div mat-dialog-actions>
       <button mat-button (click)="onSubmit()" [disabled]="!createForm.valid" >Save</button>
       <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>

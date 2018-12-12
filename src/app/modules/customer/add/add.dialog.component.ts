@@ -33,8 +33,7 @@ export class AddDialogCustomerComponent implements OnInit {
               last_Name1: ['', Validators.required],
               document_Number: ['', Validators.required],
               telephone: ['', Validators.required],
-              email: ['', Validators.required],
-              birthDate: ['', Validators.required]
+              email: ['', Validators.required]
         });
   }
 
@@ -49,15 +48,12 @@ export class AddDialogCustomerComponent implements OnInit {
   }
 
   preparateDataSubmit(){
-      this.data.id = null;
       this.data.name = this.control.name.value;
       this.data.last_Name1 = this.control.last_Name1.value;
+      this.data.last_Name2 = "";
       this.data.document_Number = this.control.document_Number.value;
       this.data.email = this.control.email.value;
       this.data.telephone = this.control.telephone.value;
-      if(this.dateCustomer != null){          
-        this.data.birthDate = moment(this.dateCustomer).format('YYYY-MM-DD');
-      }
       this.data.status = "1";
   }
 

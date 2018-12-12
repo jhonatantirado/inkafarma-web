@@ -3,7 +3,7 @@ export class Customer {
     name: string;
     last_Name1: string;
     last_Name2: string;
-    birthDate : string;
+    address : string;
     document_Number : string;
     status : string;
     telephone: string;
@@ -29,8 +29,8 @@ export class Customer {
         this.last_Name2 = value;
         return this;
     }
-    public setBirthDate(value: string): Customer {
-        this.birthDate = value;
+    public setAddress(value: string): Customer {
+        this.address = value;
         return this;
     }
     public setDocumentNumber(value: string): Customer {

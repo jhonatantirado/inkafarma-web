@@ -2,10 +2,11 @@ export class RequestCustomerDto {
     id : number;
     name: string;
     last_Name1: string;
-    birthDate : string;
+    last_Name2: string;
     document_Number : string;
     status : string;
     telephone: string;
+    address : string;
     email : string;
 
     constructor() {}
@@ -22,8 +23,8 @@ export class RequestCustomerDto {
         this.last_Name1 = value;
         return this;
     }
-    public setBirthDate(value: string): RequestCustomerDto {
-        this.birthDate = value;
+    public setLastName2(value: string): RequestCustomerDto {
+        this.last_Name2 = value;
         return this;
     }
     public setDocumentNumber(value: string): RequestCustomerDto {
@@ -40,6 +41,10 @@ export class RequestCustomerDto {
     }
     public setEmail(value: string): RequestCustomerDto {
         this.email = value;
+        return this;
+    }
+    public setAddress(value: string): RequestCustomerDto {
+        this.address = value;
         return this;
     }
 }

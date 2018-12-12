@@ -53,6 +53,7 @@ export class EditDialogCustomerComponent {
           .setId(this.data.id)
           .setName(this.control.name.value)
           .setLastName1(this.control.last_Name1.value)
+          .setLastName2("")
           .setDocumentNumber(this.control.document_Number.value)
           .setTelephone(this.control.telephone.value)
           .setEmail(this.control.email.value)

@@ -137,8 +137,7 @@ export class ListComponent implements OnInit {
                 document_Number: customer.document_Number, 
                 telephone: customer.telephone, 
                 email: customer.email, 
-                status: customer.status,                
-                birthDate : customer.birthDate}
+                status: customer.status}
         });
 
         dialogRef.afterClosed().subscribe(result => {
