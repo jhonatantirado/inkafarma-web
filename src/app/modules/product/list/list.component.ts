@@ -79,8 +79,8 @@ export class ListComponentProduct implements OnInit {
             map(data => {
               this.isLoadingResults = false;
               this.isRateLimitReached = false;
-              this.resultsLength = data.length;
-              return data;
+              this.resultsLength = data.totalRecords;
+              return data.content;
             }),
             catchError(() => {
               this.isLoadingResults = false;
@@ -188,12 +188,12 @@ export class ProductDataBase {
               private messageAlertHandleService: MessageAlertHandleService) {}
               
 
-  getProductList(sort: string, order: string, pageIndex: number, pageSize : number): Observable< Product[]> {
+  getProductList(sort: string, order: string, pageIndex: number, pageSize : number): Observable<ResponseAllProductDto> {
       if(pageSize === undefined){
         pageSize = this.pageSize;
       }
    
-      return this.productService.getAllProducts( (pageIndex + 1), pageSize)
+      return this.productService.getAllProductsByLimit( (pageIndex + 1), pageSize)
           .pipe(map(
                 successData => {                 
                   return successData;

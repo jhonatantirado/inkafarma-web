@@ -105,7 +105,7 @@ export class EditDialogProductComponent {
   public onSubmit(): void {
         this.blockUI.start();
         this.preparateDataSubmit();  
-        console.log("aaaa"); //rfv
+        
         console.log(this.requestProduct); //rfv
         this._productService.updateProduct(this.data.id, this.requestProduct).subscribe(
             successData => {              

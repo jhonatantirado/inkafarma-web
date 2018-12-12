@@ -32,9 +32,8 @@ export class DeleteDialogProductComponent {
     this._productService.deleteProduct(this.data.id).subscribe(      
         successData => {
           this.blockUI.stop();
-
+          
           if(successData.response.httpStatus == HttpStatus.OK.toString() ){
-              //this.data.isActive = 'false';   // rfv
               this._messageAlertHandleService.handleSuccess(successData.response.message);
               this.dialogRef.close(1);
           }else{
@@ -43,7 +42,6 @@ export class DeleteDialogProductComponent {
       },
       error => {          
           this.blockUI.stop();
-          this.dialogRef.close(1); // rfv - quitar
       },
       () => {}
     );
