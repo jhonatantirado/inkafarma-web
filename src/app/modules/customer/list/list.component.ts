@@ -27,7 +27,6 @@ export class ListComponent implements OnInit {
   index: number;
   id: number;
   customerDatabase: CustomerDataBase | null;
-  //data: Customer[] = [];
   dataSource: MatTableDataSource<Customer>;
 
   resultsLength = 0;
@@ -56,8 +55,16 @@ export class ListComponent implements OnInit {
 
       // Data
       this.changingData();
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      if(this.dataSource != undefined){
+          if(this.paginator != undefined){
+            this.dataSource.paginator = this.paginator;
+          }      
+          if(this.sort != undefined){
+            this.dataSource.sort = this.sort;
+          }
+      }else{
+          this.dataSource = new MatTableDataSource();
+      }      
     }
 
     changingData(){
@@ -81,7 +88,6 @@ export class ListComponent implements OnInit {
               this.isRateLimitReached = true;
               return observableOf([]);
             })
-          //).subscribe(data => this.data = data);
          ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
      }
   
@@ -99,7 +105,7 @@ export class ListComponent implements OnInit {
         });  
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
-            //this.changingData();    //rfv
+            this.changingData();
           }
         });
     }
@@ -118,7 +124,7 @@ export class ListComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
-            //this.changingData();    //rfv
+            this.changingData();
           }
         });
     }
@@ -139,7 +145,7 @@ export class ListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {            
-              //this.changingData();    //rfv        
+              this.changingData();
           }
         });      
     }
@@ -168,62 +174,18 @@ export class CustomerDataBase {
   getCustomersList(sort: string, order: string, pageIndex: number, pageSize : number): Observable<ResponseAllCustomersDto> {
       if(pageSize === undefined){
         pageSize = this.pageSize;
-      }
-      ////// rfv ////// -- quitar desde qui
-          var dto = new ResponseAllCustomersDto();
-          var customer = new Customer();
-          var data2: Customer[] = [];
-          
-
-          if(pageSize != 5){
-            dto.totalPages = 1;
-            for(var i=1; i<=6; i++){
-              customer = new Customer();
-              customer.id = i;
-              customer.documentNumber = "47288664";
-              customer.firstName = "Richar";
-              customer.lastName = "Fernandez";
-              customer.isActive = "1";
-              customer.cellphone = "111111";
-              data2.push(customer);
-            }
-            dto.totalRecords = 6;
-          }
-          if(pageSize == 5){
-            dto.totalPages = 2;
-            for(var i=1; i<=5; i++){
-              customer = new Customer();
-              customer.id = i;
-              customer.documentNumber = "47288664";
-              customer.firstName = "Richar";
-              customer.lastName = "Fernandez";
-              customer.isActive = "1";
-              customer.cellphone = "111111";
-              data2.push(customer);
-            }
-            dto.totalRecords = 5;
-          }
-          dto.currentPage = 1;
-          dto.pageSize =  pageSize; 
-          dto.content = data2;
-          
-
-          return observableOf(dto);
-    //////  rfv  -- rfv quitar hasta aqui
-
-     /* rfv   -- descomentar
-      return this.customerService.getAllCustomersByLimit( (pageIndex + 1), pageSize)
+      }     
+  
+      return this.customerService.getAllCustomersByLimit(pageIndex, pageSize)
           .pipe(map(
                 successData => {
                   return successData;
                 }
               ),
               catchError((err, caught) => {
-                // do anything if you want - rfv
                 return empty();
               })
-          ); 
-    rfv */            
+          );             
   }
 
   

@@ -29,7 +29,7 @@ export class CustomerService {
     }
 
     getAllCustomersByLimit(offset : number, limit : number) {
-        return this.http.get<ResponseAllCustomersDto>(`${environment.apiUrl}/Customers/customer?offset=` + offset+'&limit='+limit);        
+        return this.http.get<ResponseAllCustomersDto>(`${environment.apiUrl}/Customers?page=` + offset+'&size='+limit);        
     }
 
     addCustomer(customer: Customer) {

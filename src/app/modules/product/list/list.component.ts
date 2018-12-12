@@ -193,7 +193,7 @@ export class ProductDataBase {
         pageSize = this.pageSize;
       }
    
-      return this.productService.getAllProductsByLimit( (pageIndex), pageSize)
+      return this.productService.getAllProductsByLimit( pageIndex, pageSize)
           .pipe(map(
                 successData => {                 
                   return successData;
