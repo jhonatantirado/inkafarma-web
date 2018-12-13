@@ -24,9 +24,9 @@ export class AddDialogProductComponent implements OnInit {
   dateRegistration = new Date();
   dateExpiration = new Date();
   currencyList: Currency[] = [
-    {value: 'PEN', viewValue: 'Soles'},
-    {value: 'USD', viewValue: 'Dólares'},
-    {value: 'EUR', viewValue: 'Euros'}
+    {value: 604, viewValue: 'Soles'},
+    {value: 840, viewValue: 'Dólares'},
+    {value: 978, viewValue: 'Euros'}
   ];
   categoryList: CategoryProduct[] = [
     {value: 1, viewValue: 'Analgésicos'},
@@ -69,28 +69,28 @@ export class AddDialogProductComponent implements OnInit {
   }
 
   preparateDataSubmit(){
-      this.data.id = null;
       this.data.name = this.control.name.value;
+      this.data.stock = this.control.stock.value;
       this.data.price = this.control.price.value;
       this.data.currency = this.control.currency.value;
-      this.data.categoryId = this.control.categoryId.value;
-      this.data.lotNumber = this.control.lotNumber.value;
-      this.data.sanitaryRegistrationNumber = this.control.sanitaryRegistrationNumber.value;
+      this.data.category_id = this.control.categoryId.value;
+      this.data.lot_number = this.control.lotNumber.value;
+      this.data.sanitary_registration_number = this.control.sanitaryRegistrationNumber.value;
       if(this.dateRegistration != null){          
-        this.data.registrationDate = moment(this.dateRegistration).format('YYYY-MM-DD');
+        this.data.registration_date = moment(this.dateRegistration).format('YYYY-MM-DD');
       }
       if(this.dateExpiration != null){          
-        this.data.expirationDate = moment(this.dateExpiration).format('YYYY-MM-DD');
+        this.data.expiration_date = moment(this.dateExpiration).format('YYYY-MM-DD');
       }
       this.data.status = 1;
-      this.data.stockStatus = 1;
+      this.data.stock_status = 1;
+      this.data.FirebaseClientKey = sessionStorage.getItem('tokenFirebase');
   }
 
   public onSubmit(): void {
         this.submitted = true
         this.blockUI.start();        
         this.preparateDataSubmit();
-        
         this._productService.addProduct(this.data).subscribe(
 
           successData => {              
@@ -105,7 +105,6 @@ export class AddDialogProductComponent implements OnInit {
           },
           error => {
               this.blockUI.stop();
-              this.dialogRef.close(1); // rfv - quitar
           },
           () => {}
       );

@@ -23,11 +23,10 @@ import { ResponseAllCustomersDto } from '../../../models/dto/responseAllCustomer
 })
 export class ListComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
-  displayedColumns = ['id', 'firstName', 'lastName', 'documentNumber', 'cellphone', 'email', 'isActive', 'actions'];  
+  displayedColumns = ['id', 'name', 'last_Name1', 'document_Number', 'telephone', 'email', 'status', 'actions'];  
   index: number;
   id: number;
   customerDatabase: CustomerDataBase | null;
-  //data: Customer[] = [];
   dataSource: MatTableDataSource<Customer>;
 
   resultsLength = 0;
@@ -51,13 +50,20 @@ export class ListComponent implements OnInit {
       
       this.customerDatabase = new CustomerDataBase(this.httpClient, this.customerService, this.messageAlertHandleService);
 
-      // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
       // Data
       this.changingData();
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      if(this.dataSource != undefined){
+          if(this.paginator != undefined){
+            this.dataSource.paginator = this.paginator;
+          }      
+          if(this.sort != undefined){
+            this.dataSource.sort = this.sort;
+          }
+      }else{
+          this.dataSource = new MatTableDataSource();
+      }      
     }
 
     changingData(){
@@ -73,7 +79,6 @@ export class ListComponent implements OnInit {
               this.isLoadingResults = false;
               this.isRateLimitReached = false;
               this.resultsLength = data.totalRecords;
-
               return data.content;
             }),
             catchError(() => {
@@ -81,7 +86,6 @@ export class ListComponent implements OnInit {
               this.isRateLimitReached = true;
               return observableOf([]);
             })
-          //).subscribe(data => this.data = data);
          ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
      }
   
@@ -99,7 +103,7 @@ export class ListComponent implements OnInit {
         });  
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
-            //this.changingData();    //rfv
+            this.changingData();
           }
         });
     }
@@ -109,16 +113,16 @@ export class ListComponent implements OnInit {
         this.index = i;
         const dialogRef = this.dialog.open(EditDialogCustomerComponent, {
           data: {id: customer.id, 
-                firstName: customer.firstName, 
-                lastName: customer.lastName, 
-                documentNumber: customer.documentNumber, 
-                cellphone: customer.cellphone, 
+                name: customer.name, 
+                last_Name1: customer.last_Name1, 
+                document_Number: customer.document_Number, 
+                telephone: customer.telephone, 
                 email: customer.email,
-                isActive: customer.isActive}
+                status: customer.status}
         });
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
-            //this.changingData();    //rfv
+            this.changingData();
           }
         });
     }
@@ -128,18 +132,17 @@ export class ListComponent implements OnInit {
         this.index = i;
         const dialogRef = this.dialog.open(DeleteDialogCustomerComponent, {
           data: {id: customer.id, 
-                firstName: customer.firstName, 
-                lastName: customer.lastName, 
-                documentNumber: customer.documentNumber, 
-                cellphone: customer.cellphone, 
+                name: customer.name, 
+                last_Name1: customer.last_Name1, 
+                document_Number: customer.document_Number, 
+                telephone: customer.telephone, 
                 email: customer.email, 
-                isActive: customer.isActive,                
-                birthDate : customer.birthDate}
+                status: customer.status}
         });
 
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {            
-              //this.changingData();    //rfv        
+              this.changingData();
           }
         });      
     }
@@ -168,62 +171,18 @@ export class CustomerDataBase {
   getCustomersList(sort: string, order: string, pageIndex: number, pageSize : number): Observable<ResponseAllCustomersDto> {
       if(pageSize === undefined){
         pageSize = this.pageSize;
-      }
-      ////// rfv ////// -- quitar desde qui
-          var dto = new ResponseAllCustomersDto();
-          var customer = new Customer();
-          var data2: Customer[] = [];
-          
-
-          if(pageSize != 5){
-            dto.totalPages = 1;
-            for(var i=1; i<=6; i++){
-              customer = new Customer();
-              customer.id = i;
-              customer.documentNumber = "47288664";
-              customer.firstName = "Richar";
-              customer.lastName = "Fernandez";
-              customer.isActive = "1";
-              customer.cellphone = "111111";
-              data2.push(customer);
-            }
-            dto.totalRecords = 6;
-          }
-          if(pageSize == 5){
-            dto.totalPages = 2;
-            for(var i=1; i<=5; i++){
-              customer = new Customer();
-              customer.id = i;
-              customer.documentNumber = "47288664";
-              customer.firstName = "Richar";
-              customer.lastName = "Fernandez";
-              customer.isActive = "1";
-              customer.cellphone = "111111";
-              data2.push(customer);
-            }
-            dto.totalRecords = 5;
-          }
-          dto.currentPage = 1;
-          dto.pageSize =  pageSize; 
-          dto.content = data2;
-          
-
-          return observableOf(dto);
-    //////  rfv  -- rfv quitar hasta aqui
-
-     /* rfv   -- descomentar
-      return this.customerService.getAllCustomersByLimit( (pageIndex + 1), pageSize)
+      }     
+  
+      return this.customerService.getAllCustomersByLimit(pageIndex, pageSize)
           .pipe(map(
                 successData => {
                   return successData;
                 }
               ),
               catchError((err, caught) => {
-                // do anything if you want - rfv
                 return empty();
               })
-          ); 
-    rfv */            
+          );             
   }
 
   

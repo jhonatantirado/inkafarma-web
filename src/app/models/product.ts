@@ -3,14 +3,16 @@ export class Product {
     name: string;
     price: number;
     currency : string;
+    currencyISOCode : string;
     stock : number;
-    categoryId : number;
-    lotNumber: string;
-    sanitaryRegistrationNumber : string;
-    registrationDate : string;
-    expirationDate : string;
-    status : number;
-    stockStatus : number;
+    category_id : number;
+    lot_number: string;
+    sanitary_registration_number : string;
+    registration_date : string;
+    expiration_date : string;
+    status : number;    
+    stock_status : number;
+    FirebaseClientKey : string;
 
     constructor() {}
 
@@ -35,19 +37,19 @@ export class Product {
         return this;
     }
     public setCategoryId(value: number): Product {
-        this.categoryId = value;
+        this.category_id = value;
         return this;
     }
     public setLotNumber(value: string): Product {
-        this.lotNumber = value;
+        this.lot_number = value;
         return this;
     }
     public setRegistrationDate(value: string): Product {
-        this.registrationDate = value;
+        this.registration_date = value;
         return this;
     }
     public setExpirationDate(value: string): Product {
-        this.expirationDate = value;
+        this.expiration_date = value;
         return this;
     }
     public setStatus(value: number): Product {
@@ -55,7 +57,17 @@ export class Product {
         return this;
     }
     public setStockStatus(value: number): Product {
-        this.stockStatus = value;
+        this.stock_status = value;
+        return this;
+    }
+
+    public setCurrencyISOCode(value: string): Product {
+        this.currencyISOCode = value;
+        return this;
+    }
+
+    public setFirebaseClientKey(value: string): Product {
+        this.FirebaseClientKey = value;
         return this;
     }
 }

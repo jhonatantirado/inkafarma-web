@@ -1,40 +1,50 @@
 export class RequestCustomerDto {
-    firstName: string;
-    lastName: string;
-    birthDate : string;
-    documentNumber : string;
-    isActive : string;
-    cellphone: string;
+    id : number;
+    name: string;
+    last_Name1: string;
+    last_Name2: string;
+    document_Number : string;
+    status : string;
+    telephone: string;
+    address : string;
     email : string;
 
     constructor() {}
 
-    public setFirstName(value: string): RequestCustomerDto {
-        this.firstName = value;
+    public setId(value: number): RequestCustomerDto {
+        this.id = value;
         return this;
     }
-    public setLastName(value: string): RequestCustomerDto {
-        this.lastName = value;
+    public setName(value: string): RequestCustomerDto {
+        this.name = value;
         return this;
     }
-    public setBirthDate(value: string): RequestCustomerDto {
-        this.birthDate = value;
+    public setLastName1(value: string): RequestCustomerDto {
+        this.last_Name1 = value;
+        return this;
+    }
+    public setLastName2(value: string): RequestCustomerDto {
+        this.last_Name2 = value;
         return this;
     }
     public setDocumentNumber(value: string): RequestCustomerDto {
-        this.documentNumber = value;
+        this.document_Number = value;
         return this;
     }
-    public setIsActive(value: string): RequestCustomerDto {
-        this.isActive = value;
+    public setStatus(value: string): RequestCustomerDto {
+        this.status = value;
         return this;
     }
-    public setCellphone(value: string): RequestCustomerDto {
-        this.cellphone = value;
+    public setTelephone(value: string): RequestCustomerDto {
+        this.telephone = value;
         return this;
     }
     public setEmail(value: string): RequestCustomerDto {
         this.email = value;
+        return this;
+    }
+    public setAddress(value: string): RequestCustomerDto {
+        this.address = value;
         return this;
     }
 }

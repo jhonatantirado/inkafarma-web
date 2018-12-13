@@ -29,10 +29,10 @@ export class EditDialogCustomerComponent {
 
   ngOnInit() {
         this.editForm = this.formBuilder.group({
-              firstName: ['', Validators.required],
-              lastName: ['', Validators.required],
-              documentNumber: ['', Validators.required],
-              cellphone: ['', Validators.required],
+              name: ['', Validators.required],
+              last_Name1: ['', Validators.required],
+              document_Number: ['', Validators.required],
+              telephone: ['', Validators.required],
               email: ['', Validators.required]
         });
         this.loadDataEdit();
@@ -40,26 +40,24 @@ export class EditDialogCustomerComponent {
 
   get control() { return this.editForm.controls; }
 
-  onNoClick(): void {
-    this.dialogRef.close('x');
-  }
-
   loadDataEdit(){
-      this.control.firstName.setValue(this.data.firstName);
-      this.control.lastName.setValue(this.data.lastName);
-      this.control.documentNumber.setValue(this.data.documentNumber);
-      this.control.cellphone.setValue(this.data.cellphone);
+      this.control.name.setValue(this.data.name);
+      this.control.last_Name1.setValue(this.data.last_Name1);
+      this.control.document_Number.setValue(this.data.document_Number);
+      this.control.telephone.setValue(this.data.telephone);
       this.control.email.setValue(this.data.email);      
   }
 
   preparateDataSubmit(){
     this.requestCustomer = new RequestCustomerDto()
-          .setFirstName(this.control.firstName.value)
-          .setLastName(this.control.lastName.value)
-          .setDocumentNumber(this.control.documentNumber.value)
-          .setCellphone(this.control.cellphone.value)
+          .setId(this.data.id)
+          .setName(this.control.name.value)
+          .setLastName1(this.control.last_Name1.value)
+          .setLastName2("")
+          .setDocumentNumber(this.control.document_Number.value)
+          .setTelephone(this.control.telephone.value)
           .setEmail(this.control.email.value)
-          .setIsActive(this.data.isActive)
+          .setStatus(this.data.status)
       ;
   }
 
@@ -80,9 +78,12 @@ export class EditDialogCustomerComponent {
             },
             error => {
               this.blockUI.stop();
-              this.dialogRef.close(1); // rfv - quitar
             },
             () => {}
         );    
+  }
+
+  public onNoClick(): void {
+    this.dialogRef.close('x');
   }
 }

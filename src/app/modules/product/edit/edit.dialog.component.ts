@@ -5,6 +5,7 @@ import {ProductService} from '../../../services/product.service';
 import {FormControl, Validators, FormGroup ,FormBuilder } from '@angular/forms';
 import {Product} from '../../../models/product';
 import {Currency} from '../../../models/currency';
+import {CurrencyCompare} from '../../../models/currency';
 import {CategoryProduct} from '../../../models/categoryProduct';
 import {RequestProductDto} from '../../../models/dto/requestProductDto';
 import {RequestCustomerDto} from '../../../models/dto/requestCustomerDto';
@@ -25,9 +26,9 @@ export class EditDialogProductComponent {
   dateRegistration = new Date();
   dateExpiration = new Date();
   currencyList: Currency[] = [
-    {value: 'PEN', viewValue: 'Soles'},
-    {value: 'USD', viewValue: 'Dólares'},
-    {value: 'EUR', viewValue: 'Euros'}
+    {value: 604, viewValue: 'Soles'},
+    {value: 840, viewValue: 'Dólares'},
+    {value: 978, viewValue: 'Euros'}
   ];
   categoryList: CategoryProduct[] = [
     {value: 1, viewValue: 'Analgésicos'},
@@ -62,27 +63,28 @@ export class EditDialogProductComponent {
 
   get control() { return this.editForm.controls; }
 
-  onNoClick(): void {
-    this.dialogRef.close('x');
-  }
-
   loadDataEdit(){
       this.control.name.setValue(this.data.name);
       this.control.price.setValue(this.data.price);
       this.control.currency.setValue(this.data.currency);
       this.control.stock.setValue(this.data.stock);
-      this.control.categoryId.setValue(this.data.categoryId);
-      this.control.lotNumber.setValue(this.data.lotNumber);
-      this.control.sanitaryRegistrationNumber.setValue(this.data.sanitaryRegistrationNumber);
-      this.control.expirationDate.setValue(this.data.expirationDate);
+      this.control.categoryId.setValue(this.data.category_id);
+      this.control.lotNumber.setValue(this.data.lot_number);
+      this.control.sanitaryRegistrationNumber.setValue(this.data.sanitary_registration_number);
+      this.control.expirationDate.setValue(this.data.expiration_date);
+  }
+
+  addEventExpiration(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.dateExpiration = event.value;
   }
 
   preparateDataSubmit(){
     if(this.dateExpiration != null){          
-      this.data.expirationDate = moment(this.dateExpiration).format('YYYY-MM-DD');
+      this.data.expiration_date = moment(this.dateExpiration).format('YYYY-MM-DD');
     }
 
     this.requestProduct = new RequestProductDto()
+          .setId(this.data.id)
           .setName(this.control.name.value)
           .setPrice(this.control.price.value)
           .setCurrency(this.control.currency.value)
@@ -90,21 +92,19 @@ export class EditDialogProductComponent {
           .setCategoryId(this.control.categoryId.value)
           .setLotNumber(this.control.lotNumber.value)
           .setSanitaryRegistrationNumber(this.control.sanitaryRegistrationNumber.value)
-          .setRegistrationDate(this.data.registrationDate)
-          .setExpirationDate(this.data.expirationDate)
+          .setRegistrationDate(this.data.registration_date)
+          .setExpirationDate(this.data.expiration_date)
           .setStatus(this.data.status)
-          .setStockStatus(this.data.stockStatus)
+          .setStockStatus(this.data.stock_status)
       ;
   }
 
   public onSubmit(): void {
         this.blockUI.start();
         this.preparateDataSubmit();  
-
         this._productService.updateProduct(this.data.id, this.requestProduct).subscribe(
             successData => {              
                 this.blockUI.stop();
-                
                 if(successData.response.httpStatus == HttpStatus.OK.toString()){
                   this._messageAlertHandleService.handleSuccess(successData.response.message);
                   this.dialogRef.close(1);              
@@ -114,9 +114,13 @@ export class EditDialogProductComponent {
             },
             error => {
               this.blockUI.stop();
-              this.dialogRef.close(1); // rfv - quitar
             },
             () => {}
         );    
   }
+
+  public onNoClick(): void {
+    this.dialogRef.close('x');
+  }
+
 }

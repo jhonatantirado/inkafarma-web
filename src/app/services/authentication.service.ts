@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseApi } from '../models/responseApi';
-import { User } from '../models/user';
+import { Employee } from '../models/employee';
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class AuthenticationService {
     { }
 
     login(username: string, password: string) {
-        return this.http.post<ResponseApi>(`${environment.apiUrl}/login`, { username: username, password: password })
+        return this.http.post<ResponseApi>(`${environment.apiUrl}/Security/login`, { username: username, password: password } ) 
             .pipe(map(
                 successData => {
                     if (successData && successData.response.content) {

@@ -29,14 +29,14 @@ export class CustomerService {
     }
 
     getAllCustomersByLimit(offset : number, limit : number) {
-        return this.http.get<ResponseAllCustomersDto>(`${environment.apiUrl}/Customers/customer?offset=` + offset+'&limit='+limit);        
+        return this.http.get<ResponseAllCustomersDto>(`${environment.apiUrl}/Customers?page=` + offset+'&size='+limit);        
     }
 
     addCustomer(customer: Customer) {
         return this.http.post<ResponseApi>(`${environment.apiUrl}/Customers`, customer);
     }
 
-    updateCustomer(id : number, customer: RequestCustomerDto) {
+    updateCustomer(id : number, customer: RequestCustomerDto) {        
         return this.http.put<ResponseApi>(`${environment.apiUrl}/Customers/` + id, customer);
     }
 

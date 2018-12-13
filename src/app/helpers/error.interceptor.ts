@@ -14,8 +14,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log('error.interceptor.0');
-
         return next.handle(request).pipe(catchError(err => {
             if (err.status === HttpStatus.UNAUTHORIZED) {
                 this.authenticationService.logout();
@@ -23,8 +21,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.messageAlertHandleService.handleError("You're unauthorized.");
             }
             this.messageAlertHandleService.handleError(err);
-            console.log('error.interceptor.2');
-            const error = err.error.message || err.statusText;
+            //console.log(err);   //rfv
+            //const error = err.error.message || err.statusText;
+            const error = err.statusText;
             return throwError(error);
         }))
 

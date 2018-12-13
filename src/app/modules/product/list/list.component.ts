@@ -10,7 +10,6 @@ import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AddDialogProductComponent} from '.././add/add.dialog.component';
 import {EditDialogProductComponent} from '.././edit/edit.dialog.component';
 import {DeleteDialogProductComponent} from '.././delete/delete.dialog.component';
-//import {ActivateDialogComponent} from '.././activate/activate.dialog.component';
 import { MessageAlertHandleService } from '../../../services/message-alert.service';
 import { ProductService} from '../../../services/product.service';
 import { ResponseAllProductDto } from '../../../models/dto/responseAllProductDto';
@@ -23,7 +22,7 @@ import { ResponseAllProductDto } from '../../../models/dto/responseAllProductDto
 })
 export class ListComponentProduct implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
-  displayedColumns = ['id', 'name', 'price', 'currency', 'stock', 'categoryId', 'status', 'actions'];  
+  displayedColumns = ['id', 'name', 'price', 'currencyISOCode', 'stock', 'status', 'actions'];  
   index: number;
   id: number;
   productDatabase: ProductDataBase | null;
@@ -55,8 +54,16 @@ export class ListComponentProduct implements OnInit {
 
       // Data
       this.changingData();
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      if(this.dataSource != undefined){
+          if(this.paginator != undefined){
+            this.dataSource.paginator = this.paginator;
+          }      
+          if(this.sort != undefined){
+            this.dataSource.sort = this.sort;
+          }
+      }else{
+          this.dataSource = new MatTableDataSource();
+      }              
     }
 
     changingData(){
@@ -72,7 +79,6 @@ export class ListComponentProduct implements OnInit {
               this.isLoadingResults = false;
               this.isRateLimitReached = false;
               this.resultsLength = data.totalRecords;
-
               return data.content;
             }),
             catchError(() => {
@@ -80,7 +86,6 @@ export class ListComponentProduct implements OnInit {
               this.isRateLimitReached = true;
               return observableOf([]);
             })
-          //).subscribe(data => this.data = data);
          ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
      }
   
@@ -114,19 +119,20 @@ export class ListComponentProduct implements OnInit {
                 price: product.price, 
                 currency: product.currency, 
                 stock: product.stock, 
-                categoryId: product.categoryId,
-                lotNumber: product.lotNumber,
-                sanitaryRegistrationNumber: product.sanitaryRegistrationNumber,
-                registrationDate: product.registrationDate,
-                expirationDate: product.expirationDate,
+                currencyISOCode : product.currencyISOCode,
+                category_id: product.category_id,
+                lot_number: product.lot_number,
+                sanitary_registration_number: product.sanitary_registration_number,
+                registration_date: product.registration_date,
+                expiration_date: product.expiration_date,
                 status: product.status,
-                stockStatus: product.stockStatus
+                stock_status: product.stock_status
                }
         });
 
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
-            //this.changingData();    //rfv
+            this.changingData();
           }
         });
     }
@@ -141,19 +147,20 @@ export class ListComponentProduct implements OnInit {
                 price: product.price, 
                 currency: product.currency, 
                 stock: product.stock, 
-                categoryId: product.categoryId,
-                lotNumber: product.lotNumber,
-                sanitaryRegistrationNumber: product.sanitaryRegistrationNumber,
-                registrationDate: product.registrationDate,
-                expirationDate: product.expirationDate,
+                currencyISOCode : product.currencyISOCode,
+                category_id: product.category_id,
+                lot_number: product.lot_number,
+                sanitary_registration_number: product.sanitary_registration_number,
+                registration_date: product.registration_date,
+                expiration_date: product.expiration_date,
                 status: product.status,
-                stockStatus: product.stockStatus
+                stock_status: product.stock_status
               }
         });
 
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {            
-              //this.changingData();    //rfv        
+              this.changingData();  
           }
         });
       
@@ -184,65 +191,17 @@ export class ProductDataBase {
       if(pageSize === undefined){
         pageSize = this.pageSize;
       }
-      ////// rfv ////// -- quitar desde qui
-      
-          var dto = new ResponseAllProductDto();
-          var product = new Product();
-          var data2: Product[] = [];
-          
-
-          if(pageSize != 5){
-            dto.totalPages = 1;
-            for(var i=1; i<=6; i++){
-              product = new Product();
-              product.id = i;
-              product.name = "Aspirina";
-              product.price = 1.4;
-              product.currency = "PEN";
-              product.stock = i*2;
-              product.status = 1;
-              product.categoryId = 1;
-              data2.push(product);
-            }
-            dto.totalRecords = 6;
-          }
-          if(pageSize == 5){
-            dto.totalPages = 2;
-            for(var i=1; i<=5; i++){
-              product = new Product();
-              product.id = i;
-              product.name = "Aspirina";
-              product.price = 1.4;
-              product.currency = "PEN";
-              product.stock = i*2;
-              product.status = 1;
-              product.categoryId = 1;
-              data2.push(product);
-            }
-            dto.totalRecords = 5;
-          }
-          dto.currentPage = 1;
-          dto.pageSize =  pageSize; 
-          dto.content = data2;
-          
-
-          return observableOf(dto);
-          
-    //////  rfv  -- rfv quitar hasta aqui
-
-     /* rfv   -- descomentar
-      return this.productService.getAllProductsByLimit( (pageIndex + 1), pageSize)
+   
+      return this.productService.getAllProductsByLimit( pageIndex, pageSize)
           .pipe(map(
-                successData => {
+                successData => {                 
                   return successData;
                 }
               ),
               catchError((err, caught) => {
-                // do anything if you want - rfv
                 return empty();
               })
           ); 
-    rfv */            
   }
 
   
