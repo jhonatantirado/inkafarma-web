@@ -4,7 +4,8 @@ import { filter } from 'rxjs/operators';
 import { MessagingFirebaseService } from 'src/app/services/messaging-firebase.service';
 import { MessageAlertHandleService } from 'src/app/services/message-alert.service';
 import { messageNotification } from './models/messageNotification';
-import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material';
+import { PopupDialogComponent } from './popup.dialog.component';
 
 
 
@@ -22,12 +23,12 @@ export class AppComponent implements OnInit {
     constructor(
       public _containerRef: ViewContainerRef,
       private _router: Router,
-      private toastr: ToastrService ,
+      public dialog: MatDialog,
       public messageAlertHandleService: MessageAlertHandleService,
       private messagingFirebaseService: MessagingFirebaseService
     ) {  
     }
-  
+
     ngOnInit() {
         this._router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(() => {
             this.isAuthenticated = false;
@@ -46,30 +47,30 @@ export class AppComponent implements OnInit {
         this.message = this.messagingFirebaseService.currentMessage
     }
 
-    public mostrarMensaje(msje: any): void{
+    public cargarMensajeFirebase(msje: any): void{
         const errorArray: any[] = JSON.parse(msje);
         if(errorArray != null){
-            /*
+            
             if(this.bodyPrev !== errorArray['notification'].body){
-                //this.popupNotification(errorArray['notification'].body);
-                this.notification.title = errorArray['notification'].title;
-                this.notification.body = errorArray['notification'].body;
-            }
+                this.popupNotification(errorArray['notification'].body);
+            }            
+            
             this.bodyPrev = errorArray['notification'].body;    
-            */
             this.notification.title = errorArray['notification'].title;
             this.notification.body = errorArray['notification'].body;        
         }        
     }
 
     public popupNotification(msje : string) : void{
-        this.messageAlertHandleService.handleWarning(msje );
+        setTimeout(() => {
+            //this.messageAlertHandleService.handleWarning(msje );
+            const dialogRef = this.dialog.open(PopupDialogComponent, {
+                data: { title: this.notification.title,
+                        body: this.notification.body
+                    }
+                });  
+        });
+       
     }
 
-    public mostrarTitle() : string{
-        if(this.notification != null && this.notification.title != null && this.notification.title.length > 0 ){
-            return this.notification.title +  ": ";
-        }
-        return "";
-    }
   }

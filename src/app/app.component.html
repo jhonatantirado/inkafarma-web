@@ -1,8 +1,7 @@
 ﻿<block-ui>
     <app-header  *ngIf="isAuthenticated"></app-header>
-    <div *ngIf="isAuthenticated" style="margin-left: 20px;color:red;">
-        {{ mostrarMensaje(message | async | json) }}
-        <span > {{ mostrarTitle() }} </span> {{ notification.body }}
+    <div *ngIf="isAuthenticated" style="margin-left: 20px;color:red;"  >
+        {{ cargarMensajeFirebase(message | async | json) }}
     </div>
     <router-outlet>
        
