@@ -5,6 +5,12 @@ import { ReactiveFormsModule, FormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule  } from 'ngx-toastr';
 import { BlockUIModule } from 'ng-block-ui';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { AsyncPipe } from '../../node_modules/@angular/common';
+import { MessagingFirebaseService } from './services/messaging-firebase.service';
 
 import { AppComponent }  from './app.component';
 import { AppRoutingModule }        from './app.routing';
@@ -25,6 +31,8 @@ import { MessageAlertHandleService } from './services/message-alert.service';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
+
+import { environment } from '../environments/environment';
 
 import {
     MatCardModule, MatFormFieldModule, 
@@ -63,7 +71,12 @@ import {
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatSelectModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+
+        AngularFireDatabaseModule,
+        AngularFireAuthModule,
+        AngularFireMessagingModule,
+        AngularFireModule.initializeApp(environment.firebase)
     ],
     exports: [
         MatDatepickerModule,
@@ -97,6 +110,7 @@ import {
         UserService,
         CustomerService,
         ProductService,
+        MessagingFirebaseService, AsyncPipe,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: MatDialogRef, useValue: {} }, 

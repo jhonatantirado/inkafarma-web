@@ -1,4 +1,6 @@
 ﻿<block-ui>
     <app-header  *ngIf="isAuthenticated"></app-header>
     <router-outlet></router-outlet>
+
+    {{ message | async | json }}
 </block-ui>
