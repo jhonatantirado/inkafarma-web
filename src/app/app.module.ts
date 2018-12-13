@@ -12,6 +12,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AsyncPipe } from '../../node_modules/@angular/common';
 import { MessagingFirebaseService } from './services/messaging-firebase.service';
 
+import { PopupDialogComponent }  from './popup.dialog.component';
 import { AppComponent }  from './app.component';
 import { AppRoutingModule }        from './app.routing';
 import { HeaderComponent } from '../app/components/header/header.component';
@@ -88,6 +89,7 @@ import {
         LoginComponent,
         RegisterComponent,
         HeaderComponent,
+        PopupDialogComponent,
         AddDialogCustomerComponent,
         EditDialogCustomerComponent,
         DeleteDialogCustomerComponent,
@@ -101,7 +103,8 @@ import {
         DeleteDialogCustomerComponent,
         AddDialogProductComponent,
         EditDialogProductComponent,
-        DeleteDialogProductComponent
+        DeleteDialogProductComponent,
+        PopupDialogComponent
       ],
     providers: [
         AuthGuard,

@@ -47,7 +47,7 @@ export class MessagingFirebaseService {
   requestPermission(userId) {
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
-        console.log(token);
+        sessionStorage.setItem("tokenFirebase", token);
         this.updateToken(userId, token);
       },
       (err) => {
@@ -61,8 +61,8 @@ export class MessagingFirebaseService {
    */
   receiveMessage() {
     this.angularFireMessaging.messages.subscribe(
-      (payload) => {
-        console.log("new message received. ", payload);
+      (payload) => {        
+        //console.log(payload);
         this.currentMessage.next(payload);
       })
   }

@@ -84,13 +84,14 @@ export class AddDialogProductComponent implements OnInit {
       }
       this.data.status = 1;
       this.data.stock_status = 1;
+      this.data.FirebaseClientKey = sessionStorage.getItem('tokenFirebase');
   }
 
   public onSubmit(): void {
         this.submitted = true
         this.blockUI.start();        
         this.preparateDataSubmit();
-        
+        console.log(this.data);
         this._productService.addProduct(this.data).subscribe(
 
           successData => {              

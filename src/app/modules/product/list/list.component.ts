@@ -10,7 +10,6 @@ import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AddDialogProductComponent} from '.././add/add.dialog.component';
 import {EditDialogProductComponent} from '.././edit/edit.dialog.component';
 import {DeleteDialogProductComponent} from '.././delete/delete.dialog.component';
-//import {ActivateDialogComponent} from '.././activate/activate.dialog.component';
 import { MessageAlertHandleService } from '../../../services/message-alert.service';
 import { ProductService} from '../../../services/product.service';
 import { ResponseAllProductDto } from '../../../models/dto/responseAllProductDto';

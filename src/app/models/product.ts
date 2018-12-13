@@ -12,6 +12,7 @@ export class Product {
     expiration_date : string;
     status : number;    
     stock_status : number;
+    FirebaseClientKey : string;
 
     constructor() {}
 
@@ -62,6 +63,11 @@ export class Product {
 
     public setCurrencyISOCode(value: string): Product {
         this.currencyISOCode = value;
+        return this;
+    }
+
+    public setFirebaseClientKey(value: string): Product {
+        this.FirebaseClientKey = value;
         return this;
     }
 }

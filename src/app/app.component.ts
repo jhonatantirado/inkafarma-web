@@ -2,6 +2,11 @@
 import { Router, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MessagingFirebaseService } from 'src/app/services/messaging-firebase.service';
+import { MessageAlertHandleService } from 'src/app/services/message-alert.service';
+import { messageNotification } from './models/messageNotification';
+import { ToastrService } from 'ngx-toastr';
+
+
 
 @Component({
     selector: 'app',
@@ -10,11 +15,15 @@ import { MessagingFirebaseService } from 'src/app/services/messaging-firebase.se
 
 export class AppComponent implements OnInit {
     public isAuthenticated: boolean;
+    public notification : messageNotification = new messageNotification();
+    public bodyPrev : string;
     message;
     
     constructor(
       public _containerRef: ViewContainerRef,
       private _router: Router,
+      private toastr: ToastrService ,
+      public messageAlertHandleService: MessageAlertHandleService,
       private messagingFirebaseService: MessagingFirebaseService
     ) {  
     }
@@ -26,14 +35,34 @@ export class AppComponent implements OnInit {
             if (currentUser ) {
                 this.isAuthenticated = true;
             }
-        });
-        this.messagingFirebase();
+        });        
+        this.initializeFireBase();
     }
 
-    public messagingFirebase() : void{
-        const userId = 'richar';
+    public initializeFireBase() : void{
+        const userId = 'marvin';
         this.messagingFirebaseService.requestPermission(userId)
         this.messagingFirebaseService.receiveMessage()
         this.message = this.messagingFirebaseService.currentMessage
+    }
+
+    public mostrarMensaje(msje: any): void{
+        const errorArray: any[] = JSON.parse(msje);
+        if(errorArray != null){
+            /*
+            if(this.bodyPrev !== errorArray['notification'].body){
+                //this.popupNotification(errorArray['notification'].body);
+                this.notification.title = errorArray['notification'].title;
+                this.notification.body = errorArray['notification'].body;
+            }
+            this.bodyPrev = errorArray['notification'].body;    
+            */
+            this.notification.title = errorArray['notification'].title;
+            this.notification.body = errorArray['notification'].body;        
+        }        
+    }
+
+    public popupNotification(msje : string) : void{
+        this.messageAlertHandleService.handleWarning(msje );
     }
   }
