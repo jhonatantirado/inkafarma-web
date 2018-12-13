@@ -1,0 +1,33 @@
+<div class="sale-content">
+       
+    <form [formGroup]="saleForm" class="full-width-input">
+        <p>Please complete the information</p>
+
+        <div class="full-width-input">
+            <span>Customer: </span>
+            <mat-form-field >
+                <input matInput #input placeholder="Document Number" [(ngModel)]="documentoNumberSearch" formControlName="documentoNumberSearch" name="documentoNumberSearch" maxlength="8" required >
+                <mat-error *ngIf="isFieldInvalid('documentoNumberSearch')">
+                    Please complete the document number
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" (click)="onSubmitSearchCustomer()" [disabled]="disabledCustomer" >Search</button>    
+            <span *ngIf="searchCustomerCompleted" class="customerSearchResult" >{{customerSearch.name + ' ' + customerSearch.last_Name1 }}</span>
+        </div>
+        
+        <div class="detail-product" *ngIf="searchCustomerCompleted">
+            <span>Product: </span>
+            <mat-form-field >
+                <input matInput #input placeholder="Product name" [(ngModel)]="productNameSearch" formControlName="productNameSearch" name="productNameSearch" required >
+                <mat-error *ngIf="isFieldInvalid('productNameSearch')">
+                    Please complete the product name
+                </mat-error>
+            </mat-form-field>
+    
+            <button mat-raised-button color="primary" (click)="onSubmitSearchProduct()" [disabled]="disabledProduct" >Search</button>    
+            <span *ngIf="searchProductCompleted" class="productSearchResult" >{{obtenerDescripcionProduct() }}</span>
+        </div>       
+    </form>
+</div>
+

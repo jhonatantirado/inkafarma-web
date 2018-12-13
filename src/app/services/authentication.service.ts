@@ -19,7 +19,6 @@ export class AuthenticationService {
             .pipe(map(
                 successData => {
                     if (successData && successData.response.content) {
-                        console.log(successData.response.content);
                         sessionStorage.setItem('currentUser', JSON.stringify(successData.response.content));
                         sessionStorage.setItem("token", successData.response.message);
                         this.loggedIn.next(true);

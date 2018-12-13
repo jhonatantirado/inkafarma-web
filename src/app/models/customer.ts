@@ -10,7 +10,15 @@ export class Customer {
     email : string;
 
 
-    constructor() {}
+    constructor() {
+        this.id = 0;
+        this.name = "";
+        this.last_Name1 = "";
+        this.last_Name2 = "";
+        this.address = "";
+        this.document_Number = "";
+        this.email = "";
+    }
 
     public setId(value: number): Customer {
         this.id = value;
