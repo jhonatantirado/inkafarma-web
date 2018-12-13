@@ -1,9 +1,9 @@
-import { User } from "./user";
+import { Employee } from "./employee";
 
 export class Response {
     httpStatus: string;
     message: string;
-    content: User;
+    content: Employee;
     errors: Error[];
 }
 

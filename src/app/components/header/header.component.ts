@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
-import { User } from '../../models/user';
+import { Employee } from '../../models/employee';
 
 
 @Component({
@@ -26,9 +26,9 @@ export class HeaderComponent implements OnInit {
 
   getNombres() : String{
     if (sessionStorage.getItem('currentUser')) {
-      var currentUser : User;
+      var currentUser : Employee;
       currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-      return currentUser.firstName + ' ' + currentUser.lastName;
+      return currentUser.name + ' ' + currentUser.last_name1;
     }
     return "";
   }

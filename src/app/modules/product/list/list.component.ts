@@ -23,7 +23,7 @@ import { ResponseAllProductDto } from '../../../models/dto/responseAllProductDto
 })
 export class ListComponentProduct implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
-  displayedColumns = ['id', 'name', 'price', 'currency', 'stock', 'currencyISOCode', 'status', 'actions'];  
+  displayedColumns = ['id', 'name', 'price', 'currencyISOCode', 'stock', 'status', 'actions'];  
   index: number;
   id: number;
   productDatabase: ProductDataBase | null;

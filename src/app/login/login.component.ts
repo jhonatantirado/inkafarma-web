@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { first } from 'rxjs/operators';
 import {BlockUI, NgBlockUI } from 'ng-block-ui';
 import { AuthenticationService } from '../services';
-import { User } from '../models';
+import { Employee } from '../models';
 import { MessageAlertHandleService } from '../services/message-alert.service';
 
 @Component({

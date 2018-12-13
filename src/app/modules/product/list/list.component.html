@@ -23,15 +23,10 @@
       <ng-container matColumnDef="price">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.price}}</mat-cell>
-      </ng-container>
+      </ng-container> 
   
-      <ng-container matColumnDef="currency">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Currency</mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.currency}}</mat-cell>
-      </ng-container>
-
       <ng-container matColumnDef="currencyISOCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Currency Code</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Currency</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.currencyISOCode}}</mat-cell>
       </ng-container>
   
