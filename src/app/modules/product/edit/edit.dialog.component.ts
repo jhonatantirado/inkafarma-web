@@ -100,7 +100,6 @@ export class EditDialogProductComponent {
   }
 
   public onSubmit(): void {
-        console.log("submit");
         this.blockUI.start();
         this.preparateDataSubmit();  
         this._productService.updateProduct(this.data.id, this.requestProduct).subscribe(
@@ -122,7 +121,6 @@ export class EditDialogProductComponent {
 
   public onNoClick(): void {
     this.dialogRef.close('x');
-    console.log("close");
   }
 
 }

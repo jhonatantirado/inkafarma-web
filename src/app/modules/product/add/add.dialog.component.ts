@@ -105,7 +105,6 @@ export class AddDialogProductComponent implements OnInit {
           },
           error => {
               this.blockUI.stop();
-              this.dialogRef.close(1); // rfv - quitar
           },
           () => {}
       );
