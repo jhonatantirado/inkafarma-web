@@ -17,16 +17,70 @@
         </div>
         
         <div class="detail-product" *ngIf="searchCustomerCompleted">
-            <span>Product: </span>
-            <mat-form-field >
-                <input matInput #input placeholder="Product name" [(ngModel)]="productNameSearch" formControlName="productNameSearch" name="productNameSearch" required >
-                <mat-error *ngIf="isFieldInvalid('productNameSearch')">
-                    Please complete the product name
-                </mat-error>
-            </mat-form-field>
-    
-            <button mat-raised-button color="primary" (click)="onSubmitSearchProduct()" [disabled]="disabledProduct" >Search</button>    
-            <span *ngIf="searchProductCompleted" class="productSearchResult" >{{obtenerDescripcionProduct() }}</span>
+            <div>
+                <span>Product: </span>
+                <mat-form-field >
+                    <input matInput #input placeholder="Product name" [(ngModel)]="productNameSearch" formControlName="productNameSearch" name="productNameSearch" required >
+
+                </mat-form-field>
+        
+                <button mat-raised-button color="primary" (click)="onSubmitSearchProduct()" [disabled]="disabledProduct" >Search</button>    
+                <span *ngIf="searchProductCompleted" class="productSearchResult" >{{obtenerDescripcionProduct() }}</span>
+            </div>
+            <div *ngIf="searchProductCompleted">
+                <span>Quantity: </span>
+                <mat-form-field >
+                    <input matInput #input placeholder="Quantity" [(ngModel)]="quantity" formControlName="quantity" name="quantity" required >
+                    <mat-error *ngIf="isFieldInvalid('quantity')">
+                            Please complete the quantity
+                    </mat-error>
+                </mat-form-field>
+                <button mat-button (click)="onSubmitAddProduct()" > <mat-icon>add_circle_outline</mat-icon> </button>  
+            </div>
+            <div class="table-detail" >
+                    <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+
+                            <ng-container matColumnDef="product_id" >
+                              <mat-header-cell *matHeaderCellDef mat-sort-header   > Product Id</mat-header-cell>
+                              <mat-cell *matCellDef="let row" >{{row.product_id}}</mat-cell>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="productName">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row.productName}}</mat-cell>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="currency">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Currency</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.currency}}</mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="price">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Price <mat-icon>attach_money</mat-icon></mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row.price}}</mat-cell>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="quantity">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row.quantity}}</mat-cell>
+                            </ng-container>
+                        
+                            <!-- actions -->
+                            <ng-container matColumnDef="actions">
+                              <mat-header-cell *matHeaderCellDef>
+                                    <mat-icon aria-label="New Product">build</mat-icon>
+                              </mat-header-cell>
+                        
+                              <mat-cell *matCellDef="let row; let i=index;">
+                                
+                              </mat-cell>
+                            </ng-container>
+                        
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>                            
+                        </mat-table>                      
+                        <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[3, 5, 10, 15]" ></mat-paginator>
+            </div>
         </div>       
     </form>
 </div>
