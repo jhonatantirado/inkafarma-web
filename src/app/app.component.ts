@@ -65,4 +65,11 @@ export class AppComponent implements OnInit {
     public popupNotification(msje : string) : void{
         this.messageAlertHandleService.handleWarning(msje );
     }
+
+    public mostrarTitle() : string{
+        if(this.notification != null && this.notification.title != null && this.notification.title.length > 0 ){
+            return this.notification.title +  ": ";
+        }
+        return "";
+    }
   }

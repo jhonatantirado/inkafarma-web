@@ -1,8 +1,8 @@
 ﻿<block-ui>
     <app-header  *ngIf="isAuthenticated"></app-header>
-    <div *ngIf="isAuthenticated" style="margin-left: 20px;">
+    <div *ngIf="isAuthenticated" style="margin-left: 20px;color:red;">
         {{ mostrarMensaje(message | async | json) }}
-        <span style="color:red;"> {{ notification.title }}: </span> {{ notification.body }}
+        <span > {{ mostrarTitle() }} </span> {{ notification.body }}
     </div>
     <router-outlet>
        

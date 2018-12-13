@@ -91,7 +91,6 @@ export class AddDialogProductComponent implements OnInit {
         this.submitted = true
         this.blockUI.start();        
         this.preparateDataSubmit();
-        console.log(this.data);
         this._productService.addProduct(this.data).subscribe(
 
           successData => {              
