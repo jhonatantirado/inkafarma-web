@@ -15,7 +15,7 @@ export class SaleService {
     constructor(private http: HttpClient) { }
 
     newSale(sale: Sale) {
-        return this.http.post<ResponseSale>(`${environment.apiUrlJava}/Order`, sale);
+        return this.http.post<ResponseSale>(`${environment.apiUrlJava}/sales/order`, sale);
     }
 
 }
