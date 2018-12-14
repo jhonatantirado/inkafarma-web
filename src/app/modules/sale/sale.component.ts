@@ -19,6 +19,7 @@ import { Currency } from '../../models/currency';
 import * as moment from 'moment';
 import * as HttpStatus from 'http-status-codes'
 import { Employee } from '../../models';
+import { requestSaleDto } from '../../models/dto/requestSaleDto';
 
 @Component({
   selector: 'app-sale',
@@ -41,6 +42,7 @@ export class SaleComponent implements OnInit, OnDestroy {
   customerSearch : Customer = new Customer();
   productSearch : Product = new Product();
   sale : Sale = new Sale();
+  saleRequest : requestSaleDto;
   detailSale : SaleDetail;
   displayedColumns = ['product_id', 'productName', 'currency', 'price', 'quantity', 'exchange', 'subTotal', 'actions'];
   saleDetailDatabase: SaleDetailDataBase | null;
@@ -334,15 +336,17 @@ export class SaleComponent implements OnInit, OnDestroy {
         this.submitted = true
         
         this.blockUI.start();        
-        this.preparateSaleSubmit();
-        
-        this.saleService.newSale(this.sale).subscribe(
+        //this.preparateSaleSubmit();
+        //this.saleService.newSale(this.sale).subscribe(
+
+        this.preparateSaleSimplifiedSubmit();        
+        this.saleService.newSaleSimplified(this.saleRequest).subscribe(
 
           successData => {              
               this.blockUI.stop();
-              console.log(successData);
-              if(successData.statusCodeValue == HttpStatus.CREATED.toString()){                
-                this.messageAlertHandleService.handleSuccess('Sale saved successfully!');                
+              if(successData.statusCodeValue == HttpStatus.OK.toString()){                
+                this.messageAlertHandleService.handleSuccess('Sale saved successfully!');
+                this.reset();
               }else{
                 this.messageAlertHandleService.handleError('There was a problem saving the sale');
               }
@@ -362,6 +366,23 @@ export class SaleComponent implements OnInit, OnDestroy {
     this.sale.employee_id = currentUser.id;
     this.sale.sale_date = 0;
     this.sale.status = 1;
+  }
+
+  public preparateSaleSimplifiedSubmit() : void{
+    var currentUser : Employee;
+    currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.sale.id = 0;
+    this.sale.customer_id = this.customerSearch.id;
+    this.sale.employee_id = currentUser.id;
+    this.sale.sale_date = 0;
+    this.sale.status = 1;
+
+    this.saleRequest = new requestSaleDto();
+    this.saleRequest.id = this.sale.id;
+    this.saleRequest.customer_id = this.sale.customer_id;
+    this.saleRequest.employee_id = this.sale.employee_id;
+    this.saleRequest.sale_date = this.sale.sale_date;
+    this.saleRequest.salesorderdetall = this.sale.salesorderdetall[0];    
   }
 
   deleteItem(index : number, productId : number){
