@@ -78,11 +78,13 @@
                             <!-- actions -->
                             <ng-container matColumnDef="actions">
                               <mat-header-cell *matHeaderCellDef>
-                                    <mat-icon aria-label="New Product">build</mat-icon>
+                                    <mat-icon aria-label="Build">build</mat-icon>
                               </mat-header-cell>
                         
                               <mat-cell *matCellDef="let row; let i=index;">
-                                
+                                <button mat-icon-button color="accent" (click)="deleteItem(i, row.product_id)"  >
+                                    <mat-icon aria-label="Delete">remove_circle</mat-icon>
+                                  </button>
                               </mat-cell>
                             </ng-container>
                         

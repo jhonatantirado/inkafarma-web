@@ -327,7 +327,6 @@ export class SaleComponent implements OnInit, OnDestroy {
         this.total = this.total + this.calcularSubTotal(this.sale.salesorderdetall[i].quantity, this.sale.salesorderdetall[i].price, this.sale.salesorderdetall[i].currency);
         this.disabledSale = false;
     }
-    console.log(this.disabledSale);
     return this.total;
   }
 
@@ -363,7 +362,22 @@ export class SaleComponent implements OnInit, OnDestroy {
     this.sale.employee_id = currentUser.id;
     this.sale.sale_date = 0;
     this.sale.status = 1;
-    console.log(this.sale);
+  }
+
+  deleteItem(index : number, productId : number){
+    if(this.sale.salesorderdetall.length == 0){
+      return;
+    }
+    for(var i=0; i<=this.sale.salesorderdetall.length; i++){
+        if(this.sale.salesorderdetall[i] == undefined){
+          continue;
+        }
+        if(productId === this.sale.salesorderdetall[i].product_id ){
+          this.sale.salesorderdetall.splice(i, 1);
+          this.updateDetailProducts();
+          this.calculateTotal();
+        }
+    }
   }
 
 }
