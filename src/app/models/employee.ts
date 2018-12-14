@@ -7,4 +7,5 @@
     last_name2: string;
     email: string;
     status: string;
+    role_id : number;
 }

@@ -5,9 +5,9 @@
   </span>
   <span class="fill-remaining-space"></span>
   <button mat-button routerLink="dashboard" > <mat-icon>home</mat-icon> </button>  
-  <button mat-button routerLink="customer/list"  >Customer</button>  
-  <button mat-button routerLink="product/list"  >Products</button>
-  <button mat-button routerLink="sale"   >Sale</button>
+  <button mat-button routerLink="customer/list" *ngIf="isRolAdmin() || isRolVendedor()"  >Customer</button>  
+  <button mat-button routerLink="product/list" *ngIf="isRolAdmin() || isRolAlmacen()" >Products</button>
+  <button mat-button routerLink="sale" *ngIf="isRolAdmin() || isRolVendedor()"  >Sale</button>
   <button mat-button (click)="onLogout()" >Logout</button>
 </mat-toolbar>
 <div class="signin-content" >
