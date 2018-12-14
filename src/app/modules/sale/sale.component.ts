@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject, ElementRef, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MAT_TOOLTIP_DEFAULT_OPTIONS} from '@angular/material';
 import { MatProgressSpinnerModule, MatTableDataSource, MatPaginator, MatSort, PageEvent} from '@angular/material';
 import { Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { MessageAlertHandleService} from '../../services/message-alert.service';
@@ -12,9 +12,13 @@ import { Customer } from '../../models/customer';
 import { Product } from '../../models/product';
 import { CustomerService } from '../../services/customer.service';
 import { ProductService } from '../../services/product.service';
+import { SaleService } from '../../services/sale.service';
 import { Sale } from '../../models/sale';
 import { SaleDetail } from '../../models/sale.detail';
 import { Currency } from '../../models/currency';
+import * as moment from 'moment';
+import * as HttpStatus from 'http-status-codes'
+import { Employee } from '../../models';
 
 @Component({
   selector: 'app-sale',
@@ -28,15 +32,17 @@ export class SaleComponent implements OnInit, OnDestroy {
   documentoNumberSearch : string;
   productNameSearch : string;
   quantity : number;
+  total : number;
   searchCustomerCompleted : boolean;
   searchProductCompleted : boolean;
   disabledCustomer : boolean;
   disabledProduct : boolean;
+  disabledSale : boolean;
   customerSearch : Customer = new Customer();
   productSearch : Product = new Product();
   sale : Sale = new Sale();
   detailSale : SaleDetail;
-  displayedColumns = ['product_id', 'productName', 'currency', 'price', 'quantity', 'actions'];
+  displayedColumns = ['product_id', 'productName', 'currency', 'price', 'quantity', 'exchange', 'subTotal', 'actions'];
   saleDetailDatabase: SaleDetailDataBase | null;
   dataSource: MatTableDataSource<SaleDetail>;
   resultsLength = 0;
@@ -51,7 +57,8 @@ export class SaleComponent implements OnInit, OnDestroy {
       public formBuilder: FormBuilder,
       public messageAlertHandleService: MessageAlertHandleService,
       public customerService: CustomerService,
-      public productService: ProductService
+      public productService: ProductService,
+      public saleService: SaleService
   ) {}
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -61,7 +68,8 @@ export class SaleComponent implements OnInit, OnDestroy {
       this.saleForm = this.formBuilder.group({
         documentoNumberSearch: ['', Validators.required],
         productNameSearch: ['', Validators.required],
-        quantity: ['', Validators.required]
+        quantity: ['', Validators.required],
+        total: ['', Validators.required]
       });
   }
 
@@ -70,9 +78,11 @@ export class SaleComponent implements OnInit, OnDestroy {
     this.searchProductCompleted = false;
     this.disabledCustomer = false;
     this.disabledProduct = false;
+    this.disabledSale = true;
     this.documentoNumberSearch = '';
     this.productNameSearch = '';
     this.quantity = 0;
+    this.total = 0;
     this.dataSource = new MatTableDataSource();
     this.sort = new MatSort();
   }
@@ -137,6 +147,7 @@ export class SaleComponent implements OnInit, OnDestroy {
               this.quantity = 1;
               this.searchProductCompleted = true;
               this.messageAlertHandleService.handleSuccess("Product found");
+              this.updateStockProduct();
             }else{
               this.productSearch = new Product();
               this.messageAlertHandleService.handleWarning("Product not found");
@@ -149,6 +160,23 @@ export class SaleComponent implements OnInit, OnDestroy {
         },
         () => {}
     );
+  }
+
+  public updateStockProduct(){
+    if(this.sale.salesorderdetall.length == 0){
+      return;
+    }
+    for(var i=0; i<=this.sale.salesorderdetall.length; i++){
+        if(this.sale.salesorderdetall[i] == undefined){
+          continue;
+        }
+        if(this.productSearch.id === this.sale.salesorderdetall[i].product_id ){
+          this.productSearch.stock = this.productSearch.stock - this.sale.salesorderdetall[i].quantity;
+        }
+    }
+    if(this.productSearch.stock == 0){
+      this.messageAlertHandleService.handleWarning("Stock sold out!");
+    }
   }
 
   public validSearchProduct() : boolean{
@@ -172,8 +200,10 @@ export class SaleComponent implements OnInit, OnDestroy {
   public onSubmitAddProduct() : void{
       if(! this.validateAddProduct()){
         return;
-      }
-      this.detailSale = new SaleDetail()
+      }      
+      
+      if(! this.existsProduct()){
+        this.detailSale = new SaleDetail()
         .setId(0)
         .setPrice(this.productSearch.price)
         .setProductId(this.productSearch.id)
@@ -182,11 +212,11 @@ export class SaleComponent implements OnInit, OnDestroy {
         .setCurrency(this.productSearch.currencyISOCode)
         .setSaleOrderId(0)
         .setStatus(1);
-      this.sale.salesorderdetall.push(this.detailSale);
+        this.sale.salesorderdetall.push(this.detailSale);
+      }      
       this.updateDetailProducts();
       this.cleanAddProduct();
-      console.log("Add product");
-      console.log(this.sale);
+      this.calculateTotal();
   }
 
   public cleanAddProduct() : void{
@@ -194,6 +224,22 @@ export class SaleComponent implements OnInit, OnDestroy {
     this.quantity = 1;
     this.searchProductCompleted = false;
     this.productSearch = new Product();
+  }
+
+  public existsProduct() : boolean {
+    if(this.sale.salesorderdetall.length == 0){
+      return false;
+    }
+    for(var i=0; i<=this.sale.salesorderdetall.length; i++){
+        if(this.sale.salesorderdetall[i] == undefined){
+          continue;
+        }
+        if(this.productSearch.id === this.sale.salesorderdetall[i].product_id ){
+          this.sale.salesorderdetall[i].quantity =  (parseInt(this.sale.salesorderdetall[i].quantity.toString()) + parseInt(this.quantity.toString()));
+          return true;
+        }
+    }
+    return false;
   }
 
   public validateAddProduct() : boolean{
@@ -240,8 +286,85 @@ export class SaleComponent implements OnInit, OnDestroy {
         return observableOf([]);
       })
    ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
-}
+  }
 
+  public calcularSubTotal(quantity : number, price : number,  currency : string ) : number{
+    return quantity * price * this.getTipoDeCambio(currency) ;
+  }
+
+  public getTipoDeCambio(currency : string) : number{
+    if(currency === 'USD'){
+      return 3;
+    }
+    if(currency === 'EUR'){
+      return 4;
+    }
+    return 1;
+  }
+
+  public getTipoDeCambioList(currency : string) : number{
+    if(currency == null){
+      return null;
+    }
+    if(currency === 'USD'){
+      return 3;
+    }
+    if(currency === 'EUR'){
+      return 4;
+    }
+    return null;
+  }
+
+  public calculateTotal(){
+    this.total = 0;
+    if(this.sale.salesorderdetall.length == 0){
+      return this.total;
+    }
+    for(var i=0; i<=this.sale.salesorderdetall.length; i++){
+        if(this.sale.salesorderdetall[i] == undefined){
+          continue;
+        }
+        this.total = this.total + this.calcularSubTotal(this.sale.salesorderdetall[i].quantity, this.sale.salesorderdetall[i].price, this.sale.salesorderdetall[i].currency);
+        this.disabledSale = false;
+    }
+    console.log(this.disabledSale);
+    return this.total;
+  }
+
+  public onSubmitSale() : void{
+        this.submitted = true
+        
+        this.blockUI.start();        
+        this.preparateSaleSubmit();
+        
+        this.saleService.newSale(this.sale).subscribe(
+
+          successData => {              
+              this.blockUI.stop();
+              console.log(successData);
+              if(successData.statusCodeValue == HttpStatus.CREATED.toString()){                
+                this.messageAlertHandleService.handleSuccess('Sale saved successfully!');                
+              }else{
+                this.messageAlertHandleService.handleError('There was a problem saving the sale');
+              }
+          },
+          error => {
+              this.blockUI.stop();
+          },
+          () => {}
+      );      
+  }
+
+  public preparateSaleSubmit() : void{
+    var currentUser : Employee;
+    currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.sale.id = 0;
+    this.sale.customer_id = this.customerSearch.id;
+    this.sale.employee_id = currentUser.id;
+    this.sale.sale_date = 0;
+    this.sale.status = 1;
+    console.log(this.sale);
+  }
 
 }
 
