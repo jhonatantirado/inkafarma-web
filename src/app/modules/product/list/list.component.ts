@@ -22,7 +22,7 @@ import { ResponseAllProductDto } from '../../../models/dto/responseAllProductDto
 })
 export class ListComponentProduct implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
-  displayedColumns = ['id', 'name', 'price', 'currencyISOCode', 'stock', 'status', 'actions'];  
+  displayedColumns = ['id', 'name', 'currencyISOCode', 'price', 'stock', 'status', 'actions'];  
   index: number;
   id: number;
   productDatabase: ProductDataBase | null;
@@ -48,8 +48,6 @@ export class ListComponentProduct implements OnInit {
   ngOnInit() {
       
       this.productDatabase = new ProductDataBase(this.httpClient, this.productService, this.messageAlertHandleService);
-
-      // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
       // Data
@@ -104,7 +102,7 @@ export class ListComponentProduct implements OnInit {
         });  
         dialogRef.afterClosed().subscribe(result => {
           if (result === 1) {
-            //this.changingData();    //rfv
+            this.changingData();
           }
         });
         

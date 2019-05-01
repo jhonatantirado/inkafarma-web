@@ -33,4 +33,37 @@ export class HeaderComponent implements OnInit {
     return "";
   }
 
+  isRolAdmin() : boolean {
+    if (sessionStorage.getItem('currentUser')) {
+        var currentUser : Employee;
+        currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        if(currentUser.role_id == 1){
+          return true;
+        }
+    }
+    return false;
+  }
+
+  isRolVendedor() : boolean {
+    if (sessionStorage.getItem('currentUser')) {
+        var currentUser : Employee;
+        currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        if(currentUser.role_id == 2){
+          return true;
+        }
+    }
+    return false;
+  }
+
+  isRolAlmacen() : boolean {
+    if (sessionStorage.getItem('currentUser')) {
+        var currentUser : Employee;
+        currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        if(currentUser.role_id == 3){
+          return true;
+        }
+    }
+    return false;
+  }
+
 }

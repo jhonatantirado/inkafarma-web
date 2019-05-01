@@ -8,5 +8,6 @@ export const environment = {
     storageBucket: "inkafarma-web.appspot.com",
     messagingSenderId: "1097268398532"
   },
-  apiUrl : 'https://dycsw-inkapharmacy-netcore-api-anxious-echidna.cfapps.io/api'
+  apiUrl : 'https://dycsw-inkapharmacy-netcore-api-anxious-echidna.cfapps.io/api',
+  apiUrlJava : 'https://inkapharmacysb-busy-klipspringer.cfapps.io/api'
 };

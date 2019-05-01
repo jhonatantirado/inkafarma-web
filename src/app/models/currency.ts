@@ -3,7 +3,7 @@ export interface Currency {
   viewValue: string;
 }
 
-export interface CurrencyCompare {
+export class CurrencyDesc {
     value: string;
     viewValue: string;
   }

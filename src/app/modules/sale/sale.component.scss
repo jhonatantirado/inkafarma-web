@@ -1,5 +1,5 @@
 .sale-content {
-  max-width: 550px;
+  max-width: 70%;
   margin: 2em auto;
   text-align: center;
   display: flex;
@@ -17,7 +17,7 @@
 .detail-product {
   width: 100%;
   text-align: left;
-  margin: 2px;
+  padding: 10px;
   background: #ffffcc;
 }
 
@@ -26,6 +26,13 @@
 }
 .productSearchResult {
   margin-left: 20px;
+}
+.table-detail {
+  margin-top: 20px;
+}
+.total-detail {
+  text-align: right;
+  margin-top: 10px;
 }
 
 .custom-right-align {

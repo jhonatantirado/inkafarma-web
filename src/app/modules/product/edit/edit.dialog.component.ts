@@ -5,7 +5,6 @@ import {ProductService} from '../../../services/product.service';
 import {FormControl, Validators, FormGroup ,FormBuilder } from '@angular/forms';
 import {Product} from '../../../models/product';
 import {Currency} from '../../../models/currency';
-import {CurrencyCompare} from '../../../models/currency';
 import {CategoryProduct} from '../../../models/categoryProduct';
 import {RequestProductDto} from '../../../models/dto/requestProductDto';
 import {RequestCustomerDto} from '../../../models/dto/requestCustomerDto';

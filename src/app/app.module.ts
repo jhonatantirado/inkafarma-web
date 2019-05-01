@@ -27,7 +27,7 @@ import { DeleteDialogProductComponent} from './modules/product/delete/delete.dia
 
 import { AuthGuard } from './guards';
 import { JwtInterceptor, ErrorInterceptor } from './helpers';
-import { AuthenticationService, UserService, CustomerService, ProductService } from './services';
+import { AuthenticationService, UserService, CustomerService, ProductService, SaleService } from './services';
 import { MessageAlertHandleService } from './services/message-alert.service';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
@@ -113,6 +113,7 @@ import {
         UserService,
         CustomerService,
         ProductService,
+        SaleService,
         MessagingFirebaseService, AsyncPipe,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
