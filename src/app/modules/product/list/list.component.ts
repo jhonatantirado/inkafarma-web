@@ -111,7 +111,7 @@ export class ListComponentProduct implements OnInit {
     }
   
     applyFilter(filterValue: string) {
-        if((filterValue.trim().length % 2) == 0){
+        if((filterValue.trim().length % 3) == 0){
           this.blockUI.start();    
           this.changingDataFilter(filterValue);
           this.blockUI.stop();
