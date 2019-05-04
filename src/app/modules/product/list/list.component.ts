@@ -86,10 +86,35 @@ export class ListComponentProduct implements OnInit {
             })
          ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
      }
+
+    changingDataFilter(filterValue : string){
+          merge(this.sort.sortChange, this.paginator.page)
+          .pipe(
+            startWith({}),
+            switchMap(() => {
+              this.isLoadingResults = true;
+              return this.productDatabase!.searchProductList(
+                filterValue, this.paginator.pageIndex, this.paginator.pageSize);
+            }),
+            map(data => {
+              this.isLoadingResults = false;
+              this.isRateLimitReached = false;
+              this.resultsLength = data.totalRecords;
+              return data.content;
+            }),
+            catchError(() => {
+              this.isLoadingResults = false;
+              this.isRateLimitReached = true;
+              return observableOf([]);
+            })
+        ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
+    }
   
     applyFilter(filterValue: string) {
         if((filterValue.trim().length % 2) == 0){
-          console.log("length: "+ filterValue.trim().length);   //rfv
+          this.blockUI.start();    
+          this.changingDataFilter(filterValue);
+          this.blockUI.stop();
         }
         this.dataSource.filter = filterValue.trim().toLowerCase();
     
