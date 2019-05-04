@@ -88,6 +88,9 @@ export class ListComponentProduct implements OnInit {
      }
   
     applyFilter(filterValue: string) {
+        if((filterValue.trim().length % 2) == 0){
+          console.log("length: "+ filterValue.trim().length);   //rfv
+        }
         this.dataSource.filter = filterValue.trim().toLowerCase();
     
         if (this.dataSource.paginator) {
@@ -202,5 +205,20 @@ export class ProductDataBase {
           ); 
   }
 
-  
+  searchProductList(productName : string, pageIndex: number, pageSize : number): Observable<ResponseAllProductDto> {
+      if(pageSize === undefined){
+        pageSize = this.pageSize;
+      }
+ 
+      return this.productService.searchAllProductsByLimit( productName, pageIndex, pageSize)
+        .pipe(map(
+              successData => {                 
+                return successData;
+              }
+            ),
+            catchError((err, caught) => {
+              return empty();
+            })
+        ); 
+  }
 }

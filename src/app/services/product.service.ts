@@ -24,8 +24,8 @@ export class ProductService {
         return this.http.get(`${environment.apiUrl}/Products/` + id);
     }
 
-    getProductByName(categoryName : string) {
-        return this.http.get<Product>(`${environment.apiUrl}/Products/FindByName?ProductName=` + categoryName);
+    getProductByName(productName : string) {
+        return this.http.get<Product>(`${environment.apiUrl}/Products/FindByName?ProductName=` + productName);
     }
 
     getProductByCategory(categoryId : number) {
@@ -38,6 +38,10 @@ export class ProductService {
 
     getAllProducts(offset : number, limit : number) {
         return this.http.get<Product[]>(`${environment.apiUrl}/Products?page=` + offset+'&size='+limit);        
+    }
+
+    searchAllProductsByLimit(productName :string, offset : number, limit : number) {
+        return this.http.get<ResponseAllProductDto>(`${environment.apiUrl}/Products?page=` + offset+'&size='+limit);        
     }
 
     addProduct(product: Product) {
