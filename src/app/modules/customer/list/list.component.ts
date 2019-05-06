@@ -28,6 +28,7 @@ export class ListComponent implements OnInit {
   id: number;
   customerDatabase: CustomerDataBase | null;
   dataSource: MatTableDataSource<Customer>;
+  filterSearch : string;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -47,9 +48,8 @@ export class ListComponent implements OnInit {
   @ViewChild('filter') filter: ElementRef;
 
   ngOnInit() {
-      
+      this.filterSearch = "";
       this.customerDatabase = new CustomerDataBase(this.httpClient, this.customerService, this.messageAlertHandleService);
-
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
       // Data
@@ -73,7 +73,7 @@ export class ListComponent implements OnInit {
             switchMap(() => {
               this.isLoadingResults = true;
               return this.customerDatabase!.getCustomersList(
-                this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
+                this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize, this.filterSearch);
             }),
             map(data => {
               this.isLoadingResults = false;
@@ -88,36 +88,34 @@ export class ListComponent implements OnInit {
             })
          ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
     }
-
-    changingDataFilter(filter : string){
-        merge(this.sort.sortChange, this.paginator.page)
-        .pipe(
-          startWith({}),
-          switchMap(() => {
-            this.isLoadingResults = true;
-            return this.customerDatabase!.searchCustomersList(
-              filter, this.paginator.pageIndex, this.paginator.pageSize);
-          }),
-          map(data => {
-            this.isLoadingResults = false;
-            this.isRateLimitReached = false;
-            this.resultsLength = data.totalRecords;
-            return data.content;
-          }),
-          catchError(() => {
-            this.isLoadingResults = false;
-            this.isRateLimitReached = true;
-            return observableOf([]);
-          })
-      ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
-    }
   
     applyFilter(filterValue: string) {
-        if((filterValue.trim().length % 3) == 0){
-            this.blockUI.start();    
-            this.changingDataFilter(filterValue);
-            this.blockUI.stop();
-        }
+      this.paginator.pageIndex = 0
+      this.filterSearch = filterValue;
+      if(filterValue.trim().length == 0){
+        this.customerService.getAllCustomersByLimit(this.paginator.pageIndex, this.paginator.pageSize ).subscribe(
+            successData => {
+              this.dataSource = new MatTableDataSource(successData.content) 
+              this.resultsLength = successData.totalRecords;           
+            },
+            error => {
+            },
+            () => {}
+        );
+      }else{
+          if((filterValue.trim().length % 2) == 0){
+            this.customerService.searchAllCustomersByLimit(filterValue,this.paginator.pageIndex, this.paginator.pageSize ).subscribe(
+                successData => {
+                    this.dataSource = new MatTableDataSource(successData.content)
+                    this.resultsLength = successData.totalRecords;  
+                    console.log(this.resultsLength)            
+                },
+                error => {
+                },
+                () => {}
+             );
+          }
+      }
 
         this.dataSource.filter = filterValue.trim().toLowerCase();
     
@@ -198,21 +196,35 @@ export class CustomerDataBase {
                 private messageAlertHandleService: MessageAlertHandleService) {}
                 
 
-    getCustomersList(sort: string, order: string, pageIndex: number, pageSize : number): Observable<ResponseAllCustomersDto> {
+    getCustomersList(sort: string, order: string, pageIndex: number, pageSize : number, filter : string): Observable<ResponseAllCustomersDto> {
         if(pageSize === undefined){
           pageSize = this.pageSize;
         }     
-    
-        return this.customerService.getAllCustomersByLimit(pageIndex, pageSize)
-            .pipe(map(
-                  successData => {
-                    return successData;
-                  }
-                ),
-                catchError((err, caught) => {
-                  return empty();
-                })
-            );             
+        if(filter.trim().length == 0){
+            return this.customerService.getAllCustomersByLimit(pageIndex, pageSize)
+                .pipe(map(
+                      successData => {
+                        return successData;
+                      }
+                    ),
+                    catchError((err, caught) => {
+                      return empty();
+                    })
+                );  
+        }else{
+          return this.customerService.searchAllCustomersByLimit(filter, pageIndex, pageSize)
+              .pipe(map(
+                    successData => {
+                      return successData;
+                    }
+                  ),
+                  catchError((err, caught) => {
+                    return empty();
+                  })
+              );  
+        }
+        
+                   
     }
 
     searchCustomersList(filter: string, pageIndex: number, pageSize : number): Observable<ResponseAllCustomersDto> {
