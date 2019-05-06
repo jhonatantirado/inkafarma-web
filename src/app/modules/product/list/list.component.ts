@@ -27,12 +27,12 @@ export class ListComponentProduct implements OnInit {
   id: number;
   productDatabase: ProductDataBase | null;
   dataSource: MatTableDataSource<Product>;
+  filterSearch : string;
 
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
   pageEvent: PageEvent;
-  
 
   constructor(public httpClient: HttpClient,
               public dialog: MatDialog,
@@ -46,10 +46,9 @@ export class ListComponentProduct implements OnInit {
   @ViewChild('filter') filter: ElementRef;
 
   ngOnInit() {
-      
+      this.filterSearch = "";
       this.productDatabase = new ProductDataBase(this.httpClient, this.productService, this.messageAlertHandleService);
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
       // Data
       this.changingData();
       if(this.dataSource != undefined){
@@ -71,7 +70,7 @@ export class ListComponentProduct implements OnInit {
             switchMap(() => {
               this.isLoadingResults = true;
               return this.productDatabase!.getProductList(
-                this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
+                this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize, this.filterSearch);
             }),
             map(data => {
               this.isLoadingResults = false;
@@ -87,41 +86,35 @@ export class ListComponentProduct implements OnInit {
          ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
      }
 
-    changingDataFilter(filterValue : string){
-          merge(this.sort.sortChange, this.paginator.page)
-          .pipe(
-            startWith({}),
-            switchMap(() => {
-              this.isLoadingResults = true;
-              return this.productDatabase!.searchProductList(
-                filterValue, this.paginator.pageIndex, this.paginator.pageSize);
-            }),
-            map(data => {
-              this.isLoadingResults = false;
-              this.isRateLimitReached = false;
-              this.resultsLength = data.totalRecords;
-              return data.content;
-            }),
-            catchError(() => {
-              this.isLoadingResults = false;
-              this.isRateLimitReached = true;
-              return observableOf([]);
-            })
-        ).subscribe(data => this.dataSource = new MatTableDataSource(data) );
-    }
   
     applyFilter(filterValue: string) {
+        this.paginator.pageIndex = 0
+        this.filterSearch = filterValue;
         if(filterValue.trim().length == 0){
-          this.blockUI.start();    
-          this.changingData();
-          this.blockUI.stop();
+          this.productService.getAllProductsByLimit(this.paginator.pageIndex, this.paginator.pageSize ).subscribe(
+              successData => {
+                this.dataSource = new MatTableDataSource(successData.content) 
+                this.resultsLength = successData.totalRecords;           
+              },
+              error => {
+              },
+              () => {}
+          );
         }else{
             if((filterValue.trim().length % 2) == 0){
-              this.blockUI.start();    
-              this.changingDataFilter(filterValue);
-              this.blockUI.stop();
+              this.productService.searchAllProductsByLimit(filterValue,this.paginator.pageIndex, this.paginator.pageSize ).subscribe(
+                  successData => {
+                      this.dataSource = new MatTableDataSource(successData.content)
+                      this.resultsLength = successData.totalRecords;  
+                      console.log(this.resultsLength)            
+                  },
+                  error => {
+                  },
+                  () => {}
+               );
             }
-        }        
+        }
+        
         this.dataSource.filter = filterValue.trim().toLowerCase();
     
         if (this.dataSource.paginator) {
@@ -219,12 +212,12 @@ export class ProductDataBase {
               private messageAlertHandleService: MessageAlertHandleService) {}
               
 
-  getProductList(sort: string, order: string, pageIndex: number, pageSize : number): Observable<ResponseAllProductDto> {
+  getProductList(sort: string, order: string, pageIndex: number, pageSize : number, filter : string): Observable<ResponseAllProductDto> {
       if(pageSize === undefined){
         pageSize = this.pageSize;
       }
-   
-      return this.productService.getAllProductsByLimit( pageIndex, pageSize)
+      if(filter.trim().length == 0){
+          return this.productService.getAllProductsByLimit( pageIndex, pageSize)
           .pipe(map(
                 successData => {                 
                   return successData;
@@ -234,6 +227,18 @@ export class ProductDataBase {
                 return empty();
               })
           ); 
+      }else{
+        return this.productService.searchAllProductsByLimit( filter, pageIndex, pageSize)
+            .pipe(map(
+                  successData => {                 
+                    return successData;
+                  }
+                ),
+                catchError((err, caught) => {
+                  return empty();
+                })
+            ); 
+      }      
   }
 
   searchProductList(productName : string, pageIndex: number, pageSize : number): Observable<ResponseAllProductDto> {
