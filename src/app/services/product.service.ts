@@ -41,7 +41,7 @@ export class ProductService {
     }
 
     searchAllProductsByLimit(filter :string, offset : number, limit : number) {
-        return this.http.get<ResponseAllProductDto>(`${environment.apiUrl}/Products?page=` + offset+'&size='+limit);        
+        return this.http.get<ResponseAllProductDto>(`${environment.apiUrl}/Products/LikeSearchByName?page=` + offset+'&size='+limit+'&productName='+filter);        
     }
 
     addProduct(product: Product) {

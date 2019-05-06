@@ -111,11 +111,17 @@ export class ListComponentProduct implements OnInit {
     }
   
     applyFilter(filterValue: string) {
-        if((filterValue.trim().length % 3) == 0){
+        if(filterValue.trim().length == 0){
           this.blockUI.start();    
-          this.changingDataFilter(filterValue);
+          this.changingData();
           this.blockUI.stop();
-        }
+        }else{
+            if((filterValue.trim().length % 2) == 0){
+              this.blockUI.start();    
+              this.changingDataFilter(filterValue);
+              this.blockUI.stop();
+            }
+        }        
         this.dataSource.filter = filterValue.trim().toLowerCase();
     
         if (this.dataSource.paginator) {
