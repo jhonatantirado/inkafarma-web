@@ -382,6 +382,7 @@ export class SaleComponent implements OnInit, OnDestroy {
     this.saleRequest.customer_id = this.sale.customer_id;
     this.saleRequest.employee_id = this.sale.employee_id;
     this.saleRequest.sale_date = this.sale.sale_date;
+    this.saleRequest.status = 1;
     this.saleRequest.salesorderdetall = this.sale.salesorderdetall[0];    
   }
 
