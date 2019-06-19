@@ -14,7 +14,6 @@ import { MessageAlertHandleService } from '../../../services/message-alert.servi
 import { ProductService} from '../../../services/product.service';
 import { ResponseAllProductDto } from '../../../models/dto/responseAllProductDto';
 
-
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -139,20 +138,20 @@ export class ListComponentProduct implements OnInit {
         this.id = product.id;
         this.index = i;
         const dialogRef = this.dialog.open(EditDialogProductComponent, {
-          data: {id: product.id, 
-                name: product.name, 
-                price: product.price, 
-                currency: product.currency, 
-                stock: product.stock, 
-                currencyISOCode : product.currencyISOCode,
-                category_id: product.category_id,
-                lot_number: product.lot_number,
-                sanitary_registration_number: product.sanitary_registration_number,
-                registration_date: product.registration_date,
-                expiration_date: product.expiration_date,
-                status: product.status,
-                stock_status: product.stock_status
-               }
+            data: {id: product.id, 
+                  name: product.name, 
+                  price: product.price, 
+                  currency: product.currency, 
+                  stock: product.stock, 
+                  currencyISOCode : product.currencyISOCode,
+                  category_id: product.category_id,
+                  lot_number: product.lot_number,
+                  sanitary_registration_number: product.sanitary_registration_number,
+                  registration_date: product.registration_date,
+                  expiration_date: product.expiration_date,
+                  status: product.status,
+                  stock_status: product.stock_status
+                }
         });
 
         dialogRef.afterClosed().subscribe(result => {
