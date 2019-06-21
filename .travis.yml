@@ -7,7 +7,7 @@ branches:
 before_script:
 - npm install -g --silent @angular/cli
 script: 
-  - .travis/build.sh    
+  - build.sh    
   - chmod +x dist
   - chmod +x dist/inkafarma-web
 # blocklist

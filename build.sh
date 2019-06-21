@@ -13,5 +13,9 @@ if [[ $TRAVIS_BRANCH == 'uat' ]]
 fi
 
 if [[ $TRAVIS_BRANCH == 'prod' ]]
-  ng build --configuration=prod
+  ng build --prod
+fi
+
+if [[ $TRAVIS_BRANCH == 'master' ]]
+  ng build --prod
 fi
