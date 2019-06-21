@@ -75,7 +75,7 @@ deploy:
     api: https://api.run.pivotal.io
     organization: 
       secure: "doNHp5KdDzVKoqnQv8tv3MI/7mEaQLx+Eaxc8OIgnpbP0xqBvPOaZHhNwYccQol6lsm3PmjTetEoKFIaZS4cpRaPGly/sxoitPPzovsa56dkktrhOGY4VnQE1BKq8rDkUTevbPjhAx8aAQa5oTT2YVO0sOczpSovti2rOcUfw/cpB1gnlkbQFSl6+HdQRtZPbktE0dttNZeqcbVPIwfm9MvH6LdcufjSOo5lUm23CEDU4KYoKPdfGroYQimJ0noZIZ241aXrE9C4zV+rAgyhvk6dGXFpntjYRetVds1A2kIb3Lpl5R2Sq+GaQrP5/+cdpzHsFTcT1QywEqz46g/gI6dYL9YZKL93HfZ8oeFa47lZNWcCo6cvyR7LlX4R/rjRnlL4cHgjBKdJzumJYxKaoiZAESw5xb2b9gRRYo3sXIXVUEk6sRwtYZVCOiZ/ZICsDrtDtOeIdB5Urot/tIVHIlMoInZQo/BLmd1Jn17fbILBIbmsI+lIoPDpzwnjANPDigves7t7lEMnfV4v7NOBfXHI3h886to8sMHh00FPtPJW7WzlMbnppspAZ6XjMR5Blh/DnN54k1+JmylFMt4rC4ZPe0f0UpcE6r767S5W+53CFhXBnUcqffJV3bwvkJc8odLsAmGcmVMQWyrCdNqhaZ+umWyWn1/d53/JA0MxVrw="
-    space: prod
+    space: production
     on:
         branch: prod
 notifications:
