@@ -1,8 +1,10 @@
 ﻿<div class="signin-content">
     <mat-card>
       <mat-card-content>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-           
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">            
+            
+          
+          
           <p>Please login to continue</p>
           <mat-form-field class="full-width-input">
             <input matInput placeholder="User" formControlName="username" maxlength="40" required>
