@@ -32,6 +32,10 @@ export class CustomerService {
         return this.http.get<ResponseAllCustomersDto>(`${environment.apiUrl}/Customers?page=` + offset+'&size='+limit);        
     }
 
+    searchAllCustomersByLimit(filter : string, offset : number, limit : number) {
+        return this.http.get<ResponseAllCustomersDto>(`${environment.apiUrl}/Customers/LikeSearchByNameAndDocumentNumber?page=` + offset+'&size='+limit+'&Name='+filter);        
+    }
+
     addCustomer(customer: Customer) {
         return this.http.post<ResponseApi>(`${environment.apiUrl}/Customers`, customer);
     }

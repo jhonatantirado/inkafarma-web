@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   firebase: {
     apiKey: "AIzaSyAZCBaE8z8z5wdTWf46HNvXfgj2CC8rRC4",
     authDomain: "inkafarma-web.firebaseapp.com",
@@ -8,6 +8,6 @@ export const environment = {
     storageBucket: "inkafarma-web.appspot.com",
     messagingSenderId: "1097268398532"
   },
-  apiUrl : 'https://dycsw-inkapharmacy-netcore-api-anxious-echidna.cfapps.io/api',
+  apiUrl : 'https://dycsw-inkapharmacy-netcore-api-silly-gorilla.cfapps.io/api',
   apiUrlJava : 'https://inkapharmacysb-friendly-wombat.cfapps.io/api'
 };

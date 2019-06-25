@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   firebase: {
     apiKey: "AIzaSyAZCBaE8z8z5wdTWf46HNvXfgj2CC8rRC4",
     authDomain: "inkafarma-web.firebaseapp.com",
