@@ -89,6 +89,19 @@ export class SaleComponent implements OnInit, OnDestroy {
     this.sort = new MatSort();
   }
 
+  resetSearchCustomer(){
+    this.searchCustomerCompleted = false;
+    this.searchProductCompleted = false;
+    this.disabledCustomer = false;
+    this.disabledProduct = false;
+    this.disabledSale = true;
+    this.productNameSearch = '';
+    this.quantity = 0;
+    this.total = 0;
+    this.dataSource = new MatTableDataSource();
+    this.sort = new MatSort();
+  }
+
   isFieldInvalid(field: string) {
       return (
         (!this.saleForm.get(field).valid && this.saleForm.get(field).touched )
@@ -109,6 +122,8 @@ export class SaleComponent implements OnInit, OnDestroy {
     this.customerService.getCustomerByNumDoc(this.documentoNumberSearch).subscribe(
         successData => {
             if(successData != null){
+              this.resetSearchCustomer();
+              
               this.customerSearch = successData;
               this.searchCustomerCompleted = true;
               this.messageAlertHandleService.handleSuccess("Customer found");
