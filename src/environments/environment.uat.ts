@@ -9,5 +9,5 @@ export const environment = {
     messagingSenderId: "1097268398532"
   },
   apiUrl : 'https://dycsw-inkapharmacy-netcore-api-silly-gorilla.cfapps.io/api',
-  apiUrlJava : 'https://inkapharmacysb-friendly-wombat.cfapps.io/api'
+  apiUrlJava : 'https://inkapharmacysb-reliable-nyala.cfapps.io/api'
 };

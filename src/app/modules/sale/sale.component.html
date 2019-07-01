@@ -6,10 +6,11 @@
         <div class="full-width-input">
             <span>Customer: </span>
             <mat-form-field >
-                <input matInput #input placeholder="Document Number" [(ngModel)]="documentoNumberSearch" formControlName="documentoNumberSearch" name="documentoNumberSearch" maxlength="8" required >
+                <input matInput  #input placeholder="Document Number" [(ngModel)]="documentoNumberSearch" formControlName="documentoNumberSearch" name="documentoNumberSearch" maxlength="8" required >
                 <mat-error *ngIf="isFieldInvalid('documentoNumberSearch')">
                     Please complete the document number
                 </mat-error>
+               
             </mat-form-field>
 
             <button mat-raised-button color="primary" (click)="onSubmitSearchCustomer()" [disabled]="disabledCustomer" >Search</button>    
@@ -20,8 +21,15 @@
             <div>
                 <span>Product: </span>
                 <mat-form-field >
-                    <input matInput #input placeholder="Product name" [(ngModel)]="productNameSearch" formControlName="productNameSearch" name="productNameSearch" required >
-
+                    <input matInput [matAutocomplete]="auto" #input placeholder="Product name" [(ngModel)]="productNameSearch" formControlName="productNameSearch" name="productNameSearch" required >
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"  >
+                        <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
+                        <ng-container *ngIf="!isLoading">
+                          <mat-option *ngFor="let option of filteredProducts" [value]="option">
+                            {{ option.name }}
+                          </mat-option>
+                        </ng-container>
+                      </mat-autocomplete>
                 </mat-form-field>
         
                 <button mat-raised-button color="primary" (click)="onSubmitSearchProduct()" [disabled]="disabledProduct" >Search</button>    

@@ -36,9 +36,10 @@ import { RegisterComponent } from './register';
 import { environment } from '../environments/environment';
 
 import {
-    MatCardModule, MatFormFieldModule, 
+    MatCardModule, MatFormFieldModule,  
     MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule,
     MatProgressSpinnerModule, MatDatepickerModule, MatNativeDateModule, MatSliderModule, MatSelectModule,
+    MatAutocompleteModule, 
     MatCheckboxModule, MatTableModule, MatToolbarModule, MAT_DIALOG_DATA, MatDialogRef
   } from '@angular/material';
 
@@ -73,6 +74,7 @@ import {
         MatDatepickerModule,
         MatSelectModule,
         MatNativeDateModule,
+        MatAutocompleteModule,
 
         AngularFireDatabaseModule,
         AngularFireAuthModule,
@@ -82,6 +84,7 @@ import {
     exports: [
         MatDatepickerModule,
         MatSelectModule
+        
       ],
     declarations: [
         AppComponent,

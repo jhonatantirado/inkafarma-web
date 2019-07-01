@@ -5,7 +5,7 @@ import { Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { MessageAlertHandleService} from '../../services/message-alert.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable, of as observableOf, BehaviorSubject, merge, empty} from 'rxjs';
-import { catchError, map, startWith, switchMap} from 'rxjs/operators';
+import { catchError, map, startWith, switchMap, debounceTime, tap, finalize} from 'rxjs/operators';
 import { DataSource} from '@angular/cdk/collections';
 import { HttpClient} from '@angular/common/http';
 import { Customer } from '../../models/customer';
@@ -53,6 +53,9 @@ export class SaleComponent implements OnInit, OnDestroy {
     {value: 840, viewValue: 'USD'},
     {value: 978, viewValue: 'EUR'}
   ];
+  filteredProducts: Product[] = [];
+  isLoading = false;
+  searchProd = '';
 
   constructor(
       public httpClient: HttpClient,
@@ -68,12 +71,31 @@ export class SaleComponent implements OnInit, OnDestroy {
   ngOnInit() {
       this.reset();
       this.saleForm = this.formBuilder.group({
-        documentoNumberSearch: ['', Validators.required],
-        productNameSearch: ['', Validators.required],
+        documentoNumberSearch: ['', Validators.required],       
         quantity: ['', Validators.required],
-        total: ['', Validators.required]
+        total: ['', Validators.required],
+        productNameSearch: ['', Validators.required]
       });
+  
+      this.saleForm
+      .get('productNameSearch')
+      .valueChanges
+      .pipe(
+        debounceTime(300),
+        tap(() => this.isLoading = true),
+        switchMap(value => this.productService.searchAllProductsByLimit(value, 0, 30)
+        .pipe(
+          finalize(() => this.isLoading = false),
+          )
+        )
+      )
+      .subscribe(data => this.filteredProducts = data.content);
   }
+
+  displayFn(nombre?: Product): string | undefined {
+    return nombre ? nombre.name : undefined;
+  }
+
 
   reset(){
     this.searchCustomerCompleted = false;
@@ -85,6 +107,7 @@ export class SaleComponent implements OnInit, OnDestroy {
     this.productNameSearch = '';
     this.quantity = 0;
     this.total = 0;
+    this.sale = new Sale();
     this.dataSource = new MatTableDataSource();
     this.sort = new MatSort();
   }
@@ -156,8 +179,9 @@ export class SaleComponent implements OnInit, OnDestroy {
     if(!this.validSearchProduct()){
       return;
     }
+    this.searchProd = this.saleForm.get('productNameSearch').value.name;
     this.blockUI.start(); 
-    this.productService.getProductByName(this.productNameSearch).subscribe(
+    this.productService.getProductByName(this.searchProd).subscribe(
         successData => {
             if(successData != null){
               this.productSearch = successData;
@@ -351,16 +375,16 @@ export class SaleComponent implements OnInit, OnDestroy {
         this.submitted = true
         
         this.blockUI.start();        
-        //this.preparateSaleSubmit();
-        //this.saleService.newSale(this.sale).subscribe(
-
-        this.preparateSaleSimplifiedSubmit();        
-        this.saleService.newSaleSimplified(this.saleRequest).subscribe(
+        this.preparateSaleSubmit();
+        this.saleService.newSaleMultiple(this.sale).subscribe(
+        //this.preparateSaleSimplifiedSubmit();        
+        //this.saleService.newSaleSimplified(this.saleRequest).subscribe(
 
           successData => {              
               this.blockUI.stop();
               if(successData.statusCodeValue == HttpStatus.OK.toString()){                
                 this.messageAlertHandleService.handleSuccess('Sale saved successfully!');
+                this.dataSource = null;
                 this.reset();
               }else{
                 this.messageAlertHandleService.handleError('There was a problem saving the sale');
@@ -435,4 +459,7 @@ export class SaleComponent implements OnInit, OnDestroy {
   
     
   }
-  
+
+  export interface ProductSearch {
+    name: string;
+  }
