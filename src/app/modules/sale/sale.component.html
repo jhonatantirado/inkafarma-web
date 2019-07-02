@@ -38,7 +38,7 @@
             <div *ngIf="searchProductCompleted">
                 <span>Quantity: </span>
                 <mat-form-field >
-                    <input matInput #input placeholder="Quantity" [(ngModel)]="quantity" formControlName="quantity" name="quantity" required >
+                    <input matInput #input placeholder="Quantity" [(ngModel)]="quantity" formControlName="quantity" name="quantity" pattern="[0-9]" inputmode="numeric"  (keypress)="numberOnly($event)" required >
                     <mat-error *ngIf="isFieldInvalid('quantity')">
                             Please complete the quantity
                     </mat-error>

@@ -137,6 +137,15 @@ export class SaleComponent implements OnInit, OnDestroy {
     
   }
 
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
+
   onSubmitSearchCustomer() {
     if(!this.validSearchCustomer()){
       return;
@@ -153,6 +162,7 @@ export class SaleComponent implements OnInit, OnDestroy {
             }else{
               this.customerSearch = new Customer();
               this.messageAlertHandleService.handleWarning("Customer not found");
+              this.reset();
             }
             this.blockUI.stop();
         },
@@ -376,6 +386,7 @@ export class SaleComponent implements OnInit, OnDestroy {
         
         this.blockUI.start();        
         this.preparateSaleSubmit();
+        //console.log(this.sale)
         this.saleService.newSaleMultiple(this.sale).subscribe(
         //this.preparateSaleSimplifiedSubmit();        
         //this.saleService.newSaleSimplified(this.saleRequest).subscribe(
