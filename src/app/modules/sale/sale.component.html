@@ -6,7 +6,7 @@
         <div class="full-width-input">
             <span>Customer: </span>
             <mat-form-field >
-                <input matInput  #input placeholder="Document Number" [(ngModel)]="documentoNumberSearch" formControlName="documentoNumberSearch" name="documentoNumberSearch" maxlength="8" required >
+                <input matInput  #input placeholder="Document Number" [(ngModel)]="documentoNumberSearch" formControlName="documentoNumberSearch" name="documentoNumberSearch" (keypress)="numberOnly($event)" maxlength="8" required >
                 <mat-error *ngIf="isFieldInvalid('documentoNumberSearch')">
                     Please complete the document number
                 </mat-error>
