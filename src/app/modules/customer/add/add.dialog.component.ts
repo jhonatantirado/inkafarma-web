@@ -32,8 +32,8 @@ export class AddDialogCustomerComponent implements OnInit {
               name: ['', Validators.required],
               last_Name1: ['', Validators.required],
               document_Number: ['', Validators.required],
-              telephone: ['', Validators.required],
-              email: ['', Validators.required]
+              telephone: ['', Validators.minLength(5)],
+              email: ['', Validators.minLength(5)]
         });
   }
 
@@ -52,8 +52,18 @@ export class AddDialogCustomerComponent implements OnInit {
       this.data.last_Name1 = this.control.last_Name1.value;
       this.data.last_Name2 = "";
       this.data.document_Number = this.control.document_Number.value;
-      this.data.email = this.control.email.value;
-      this.data.telephone = this.control.telephone.value;
+      
+      try {
+        if(this.control.telephone != undefined){
+          this.data.telephone = this.control.telephone.value;
+        }
+        if(this.control.email != undefined){
+          this.data.email = this.control.email.value;
+        }  
+      } catch(e) {
+          // [Error]
+      }   
+          
       this.data.status = "1";
   }
 

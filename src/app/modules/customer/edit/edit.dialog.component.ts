@@ -20,6 +20,8 @@ export class EditDialogCustomerComponent {
   requestCustomer: RequestCustomerDto;
   submitted = false;
   dateCustomer = new Date();
+  telephone = '';
+  email = '';
 
   constructor(public dialogRef: MatDialogRef<EditDialogCustomerComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Customer,
@@ -32,8 +34,8 @@ export class EditDialogCustomerComponent {
               name: ['', Validators.required],
               last_Name1: ['', Validators.required],
               document_Number: ['', Validators.required],
-              telephone: ['', Validators.required],
-              email: ['', Validators.required]
+              telephone: ['', Validators.minLength(5)],
+              email: ['',  Validators.minLength(5)]
         });
         this.loadDataEdit();
   }
@@ -49,14 +51,27 @@ export class EditDialogCustomerComponent {
   }
 
   preparateDataSubmit(){
+    this.telephone = '';
+    this.email = '';
+    try {
+      if(this.control.telephone != undefined){
+        this.telephone = this.control.telephone.value;
+      }
+      if(this.control.email != undefined){
+        this.email = this.control.email.value;
+      }
+    } catch(e) {
+        // [Error]
+    }
+
     this.requestCustomer = new RequestCustomerDto()
           .setId(this.data.id)
           .setName(this.control.name.value)
           .setLastName1(this.control.last_Name1.value)
           .setLastName2("")
           .setDocumentNumber(this.control.document_Number.value)
-          .setTelephone(this.control.telephone.value)
-          .setEmail(this.control.email.value)
+          .setTelephone(this.telephone)
+          .setEmail(this.email)
           .setStatus(this.data.status)
       ;
   }

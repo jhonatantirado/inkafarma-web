@@ -19,6 +19,10 @@ export class SaleService {
         return this.http.post<ResponseSale>(`${environment.apiUrlJava}/sales/order`, sale);
     }
 
+    newSaleMultiple(sale: Sale) {
+        return this.http.post<ResponseSale>(`${environment.apiUrlJava}/sales/orderv2`, sale);
+    }
+
     newSaleSimplified(sale: requestSaleDto) {
         return this.http.post<ResponseSale>(`${environment.apiUrlJava}/sales/order`, sale);
     }

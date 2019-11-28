@@ -6,7 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 
 import {
   MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule,
-  MatTableModule, MatToolbarModule,
+  MatTableModule, MatToolbarModule, MatAutocompleteModule, MatProgressSpinnerModule
 } from '@angular/material';
 
 import {BrowserModule} from '@angular/platform-browser';
@@ -27,7 +27,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatSortModule,
     MatTableModule,
     MatToolbarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
   ],  
   declarations: 
     [SaleComponent]

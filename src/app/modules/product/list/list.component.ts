@@ -100,7 +100,7 @@ export class ListComponentProduct implements OnInit {
               () => {}
           );
         }else{
-            if((filterValue.trim().length % 2) == 0){
+            if((filterValue.trim().length % 2) == 0){             
               this.productService.searchAllProductsByLimit(filterValue,this.paginator.pageIndex, this.paginator.pageSize ).subscribe(
                   successData => {
                       this.dataSource = new MatTableDataSource(successData.content)
